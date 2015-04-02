@@ -15,11 +15,13 @@ class Route {
       }
         $params = array();
 
-        if (strpos($uri, '?')) {
+        if (strstr($uri, '?')) {
             $args = substr($uri, strpos($uri, '?') + 1);
             parse_str($args, $params);
             $uri = substr($uri, 0, strpos($uri, '?'));
         }
+
+      if ($uri=='')$uri='main/index';
 
         $parts = explode('/', $uri);
         $module = array_shift($parts);

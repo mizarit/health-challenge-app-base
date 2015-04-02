@@ -1072,7 +1072,7 @@ class MainActions extends Actions {
       $message->team_id = $team->team->id;
       $message->sender = $current_user->id;
       $message->date = date('Y-m-d H:i:s');
-      $message->interface = 'stream';
+      $message->cinterface = 'stream';
       $message->message = $_POST['chat'];
       $message->save();
 
@@ -1149,12 +1149,23 @@ class MainActions extends Actions {
     </ul>
     <?php
     $html = ob_get_clean();
-    header('Content-Type: application/json');
-    echo json_encode(array(
+    $data = array(
       'html' => $html,
       'count' => $count,
-    ));
-    exit;
+    );
+    // find popup message, if any
+    $message = Message::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'cinterface' => 'popup', 'delivered' => 0), null, 'date DESC'));
+    if ($message) {
+      $data['popup'] = array(
+        'title' => $message->title,
+        'content' => $message->message
+      );
+      $message->delivered = 1;
+      $message->save();
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
     exit;
   }
 
