@@ -8,7 +8,9 @@ class Route {
     public static function resolve()
     {
         $uri = trim($_SERVER['REQUEST_URI'], '/');
-      if ($uri[0]=='?') {
+        if(strlen($uri) == 0) {
+          $uri = 'main/index';
+      } else if ($uri[0]=='?') {
         $uri = 'main/index'.$uri;
       }
         $params = array();

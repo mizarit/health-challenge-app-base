@@ -44,10 +44,12 @@ class MainActions extends Actions {
       }
       else {
         // payload
+          $payload = explode("\n", $_POST['msg']);
         $data = array(
           'registration_ids' => $receiver_ids,
           'data' => array(
-            'payload' => $_POST['msg']
+            'payload' => trim($payload[0]),
+            'payload_args' => trim($payload[1])
           ),
         );
       }

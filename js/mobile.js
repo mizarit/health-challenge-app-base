@@ -500,3 +500,8 @@ function countStep() {
 function totalSteps(steps) {
     $('android-step-counter').innerHTML = steps;
 }
+
+function toastName(person)
+{
+    window.Android.showToast(person.name);
+}
