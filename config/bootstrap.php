@@ -47,6 +47,8 @@ if (isset($device_info['device'])) {
               $notifier->save();
             }
           }
+
+        $_SESSION['isAndroid'] = true;
         break;
     }
   }

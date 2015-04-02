@@ -5,7 +5,7 @@
   var jawbone_user_id = '<?php echo $user->xid; ?>';
   var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
   var isIos = <?php echo $user->device=='ios'?'true':'false'; ?>;
-  var isAndroid = <?php echo $user->device=='android'?'true':'false'; ?>;
+  var isAndroid = <?php echo isset($_SESSION['isAndroid'])?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
 </script>
 <div id="container"<?php if($iOS) echo ' class="iOS"'; ?>">
