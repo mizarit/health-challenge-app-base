@@ -15,10 +15,15 @@ if ($count > 0) {
         <?php if ($iOS) { ?>
           <i class="fa fa-remove" style="position: absolute;right:0;" onclick="toggleSidebar('sidebar-left');"></i>
         <?php } ?>
+
       </li>
       <li><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
-      <!--<li><i class="fa fa-search"></i> Zoek teamgenoten</li>-->
     </ul>
+        <?php if($user->device=='android'){ ?>
+            <ul>
+            <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
+            </ul>
+        <?php } ?>
     <ul>
       <li>
         <div style="position: relative;width:95%;" id="chat-input">

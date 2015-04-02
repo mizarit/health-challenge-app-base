@@ -189,6 +189,17 @@ Event.observe(window, 'load', function() {
             });
         }
     }
+
+    if(isAndroid) {
+        var hasSound = Android.getSetting('sound')=="1";
+        var hasVibrate = Android.getSetting('vibrate')=="1";
+        var hasNotifications = Android.getSetting('notifications')=="1";
+        $('notifications').checked = hasNotifications ? 'checked' : '';
+        $('notifications-vibrate').checked = hasVibrate ? 'checked' : '';
+        $('notifications-sound').checked = hasSound ? 'checked' : '';
+        $('notifications-vibrate').disabled = hasNotifications ? '' : 'disabled';
+        $('notifications-sound').disabled = hasNotifications ? '' : 'disabled';
+    }
     /*
      // menu right
      swipeMain.observe("swipe:left",function() {
@@ -465,7 +476,7 @@ function goPage(page_id, team_id)
 
     $('container').scrollTo();
 
-    for(i=1;i<4;i++) {
+    for(i=1;i<5;i++) {
         if (page_id == i) {
             $('page-'+i).addClassName('active');
         }

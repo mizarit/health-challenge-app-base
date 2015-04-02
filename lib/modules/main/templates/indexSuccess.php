@@ -4,6 +4,8 @@
   var total_cols = <?php echo $total_cols; ?>;
   var jawbone_user_id = '<?php echo $user->xid; ?>';
   var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+  var isIos = <?php echo $user->device=='ios'?'true':'false'; ?>;
+  var isAndroid = <?php echo $user->device=='android'?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
 </script>
 <div id="container"<?php if($iOS) echo ' class="iOS"'; ?>">
@@ -35,7 +37,7 @@
       <?php echo $challenge->title; ?></h2>
   </div>
   <h4 class="subteaser"  id="subteaser1"><?php echo $challenge->teaser3; ?></h4>
-  <div id="page-1" class="active">
+    <div id="page-1" class="active">
     <div class="race-track" id="race-track-1">
       <div id="race-track-bar-1" onclick="goPage(3,1);"><div id="race-track-inner-bar-1" onclick="goPage(3,1);"></div><div class="closer"></div></div>
       <div id="race-track-bar-2" onclick="goPage(3,2);"><div id="race-track-inner-bar-2" onclick="goPage(3,2);"></div><div class="closer"></div></div>
@@ -163,6 +165,7 @@
     </div>-->
 
   </div>
+    <?php require(dirname(__FILE__).'/_settingsAndroid.php'); ?>
 
 </div>
 </div>

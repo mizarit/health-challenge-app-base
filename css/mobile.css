@@ -354,7 +354,7 @@ height: 12em;
     -moz-opacity: 0.5;
 }
 
-#page-1, #page-2, #page-3 {
+#page-1, #page-2, #page-3, #page-4 {
   position: absolute;
   width:100%;
   transition: all 0.7s;
@@ -367,21 +367,21 @@ height: 12em;
     transform: translate(-100%,0);
 }
 
-#page-2, #page-3 {
+#page-2, #page-3, #page-4 {
     -webkit-transform: translate(100%,0); /* iOS makes a mess with the zoom when translated to the right, even if overflow hidden is used on the parent */
     -o-transform: translate(100%,0);
     -moz-transform: translate(100%,0);
     transform: translate(100%,0);
 }
 
-.iOS #page-2, .iOS #page-3 {
+.iOS #page-2, .iOS #page-3, .iOS #page-4 {
     -webkit-transform: translate(-100%,0);
     -o-transform: translate(-100%,0);
     -moz-transform: translate(-100%,0);
     transform: translate(-100%,0);
 }
 
-#page-1.active, #page-2.active, #page-3.active {
+#page-1.active, #page-2.active, #page-3.active, #page-4.active {
   transform: translate(0,0);
   -webkit-transform: translate(0,0);
   -o-transform: translate(0,0);
@@ -423,7 +423,8 @@ height: 12em;
 
 #page-1,
 #page-2,
-#page-3 {
+#page-3,
+#page-4 {
     background:url(/img/stats-bkg.png);
 }
 
@@ -981,4 +982,39 @@ font-size:1.5em;
 
 #chat-text {
     outline: none;
+}
+
+
+.checkbox {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.4em;
+    margin-right:1em;
+    line-height:1.2em;
+}
+input[type=checkbox] {
+    display:none;
+}
+.checkbox:before {
+    content: "";
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align:middle;
+    background-color: #0088cc;
+    color: #f3f3f3;
+    text-align: center;
+    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+    border-radius: 0.1em;
+}
+input[type=checkbox]:checked + .checkbox:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 1em;
+    font-weight: bold;
+}
+
+input[type=checkbox]:disabled + .checkbox:before {
+    background-color: #ccc;
+    color: #eee;
 }
