@@ -15,9 +15,8 @@ class MainActions extends Actions {
     $this->oauth_url = $oauth_url;
 
     if (isset($_POST['msg'])) {
-      //$push_api_key = 'AIzaSyBeMCQm0bMhd_BSn7Me1xbsFMDdgXxwl_A';
-      $push_api_key = 'AIzaSyD75eOpS3dk3zjjDi5fwYic5LwpVGaY7Ws';
-      $push_project = '567105785293';
+      $android_config = Registry::get('push_google');
+      $push_api_key = $android_config['api_key'];
 
       if (strpos($_SERVER['SERVER_NAME'], 'mizar')) {
         $test_users = array(6, 8);
@@ -53,7 +52,7 @@ class MainActions extends Actions {
           ),
         );
       }
-      $url = 'https://android.googleapis.com/gcm/send';
+      $url = $android_config['api_server'];
 
       $headers = array(
         'Authorization: key=' . $push_api_key,
@@ -71,6 +70,76 @@ class MainActions extends Actions {
       ob_start();
       echo '<pre>';
       var_dump(json_decode($output));
+      echo '</pre>';
+      $push_result = ob_get_clean();
+      $this->push_result = $push_result;
+    }
+
+
+    if (isset($_POST['msg-iOS'])) {
+      $ios_config = Registry::get('push_ios');
+
+      if (strpos($_SERVER['SERVER_NAME'], 'mizar')) {
+        $test_users = array(6, 8);
+      }
+      else {
+        $test_users = array(9,10,11);
+      }
+
+      $receiver_ids = array();
+      foreach ($test_users as $test_user) {
+        $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $test_user, 'pushDevice' => 'ios')));
+        foreach ($notifiers as $notifier) {
+          $receiver_ids[] = $notifier->pushId;
+        }
+      }
+
+      if ($_POST['msgtype-iOS'] == 'message') {
+        $body['aps'] = array(
+          'alert' => $_POST['msg-iOS'],
+          'sound' => 'default'
+        );
+      }
+      else {
+        // payload
+        $body['aps'] = array(
+          'alert' => $_POST['msg-iOS'],
+          'sound' => 'default'
+        );
+        /*
+        $payload = explode("\n", $_POST['msg-iOS']);
+        $data = array(
+          'registration_ids' => $receiver_ids,
+          'data' => array(
+            'payload' => trim($payload[0]),
+            'payload_args' => trim($payload[1])
+          ),
+        );
+        */
+      }
+
+      $passphrase = $ios_config['api_passphrase'];
+
+      foreach ($receiver_ids as $receiver_id) {
+        $ctx = stream_context_create();
+        stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
+        stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+        $fp = stream_socket_client(
+          $ios_config['api_server'], $err,
+          $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
+
+        if ($fp) {
+          $payload = json_encode($body);
+          $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
+          $result = fwrite($fp, $msg, strlen($msg));
+          fclose($fp);
+        }
+      }
+
+      ob_start();
+      echo '<pre>';
+      var_dump($result);
       echo '</pre>';
       $push_result = ob_get_clean();
       $this->push_result = $push_result;
@@ -1079,90 +1148,78 @@ class MainActions extends Actions {
       // send push notifications
       // find all team users
 // ANDROID
-      $push_api_key = 'AIzaSyD75eOpS3dk3zjjDi5fwYic5LwpVGaY7Ws';
-      $receiver_ids = array();
-      $team_users = TeamUser::model()->findAllByAttributes(new Criteria(array('team_id' => $team->team->id)));
-      foreach ($team_users as $team_user) {
-        // get all notifiers for the user
-        $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'android')));
-        foreach ($notifiers as $notifier) {
-          $receiver_ids[] = $notifier->pushId;
+      $android_config = Registry::get('push_google');
+      if ($android_config['enabled']) {
+        $push_api_key = $android_config['api_key'];
+        $receiver_ids = array();
+        $team_users = TeamUser::model()->findAllByAttributes(new Criteria(array('team_id' => $team->team->id)));
+        foreach ($team_users as $team_user) {
+          // get all notifiers for the user
+          $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'android')));
+          foreach ($notifiers as $notifier) {
+            $receiver_ids[] = $notifier->pushId;
+          }
+        }
+        if (count($receiver_ids) > 0) {
+          $data = array(
+            'registration_ids' => $receiver_ids,
+            'data' => array(
+              'message' => $current_user->firstName . ': ' . $_POST['chat']
+            ),
+          );
+          $url = $android_config['api_server'];
+
+          $headers = array(
+            'Authorization: key=' . $push_api_key,
+            'Content-Type: application/json'
+          );
+
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl, CURLOPT_URL, $url);
+          curl_setopt($curl, CURLOPT_POST, true);
+          curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+          curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+          curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+          $output = curl_exec($curl);
         }
       }
-      if (count($receiver_ids) > 0) {
-        $data = array(
-          'registration_ids' => $receiver_ids,
-          'data' => array(
-            'message' => $current_user->firstName . ': ' . $_POST['chat']
-          ),
-        );
-        $url = 'https://android.googleapis.com/gcm/send';
 
-        $headers = array(
-          'Authorization: key=' . $push_api_key,
-          'Content-Type: application/json'
-        );
-
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $output = curl_exec($curl);
-      }
       
 // IOS
-      $receiver_ids = array();
-      foreach ($team_users as $team_user) {
-        // get all notifiers for the user
-        $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'ios')));
-        foreach ($notifiers as $notifier) {
-          $receiver_ids[] = $notifier->pushId;
+      $ios_config = Registry::get('push_ios');
+      if ($ios_config['enabled']) {
+        $receiver_ids = array();
+        foreach ($team_users as $team_user) {
+          // get all notifiers for the user
+          $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'ios')));
+          foreach ($notifiers as $notifier) {
+            $receiver_ids[] = $notifier->pushId;
+          }
         }
-      }
-      if (count($receiver_ids) > 0) {
-        $passphrase = 'm00nr1s1n@';
-        $message = $current_user->firstName . ': ' . $_POST['chat'];  
-      
-        foreach ($receiver_ids as $receiver_id) {
-          
-          $ctx = stream_context_create();
-          stream_context_set_option($ctx, 'ssl', 'local_cert', 'apn.pem');
-          stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
-          
-          // Open a connection to the APNS server
-          $fp = stream_socket_client(
-          	'ssl://gateway.sandbox.push.apple.com:2195', $err,
-          	$errstr, 15, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
-          
-          if ($fp) {
-          
-            //echo 'Connected to APNS' . PHP_EOL;
-            
-            // Create the payload body
-            $body['aps'] = array(
-            	'alert' => $message,
-            	'sound' => 'default'
-            	);
-            
-            // Encode the payload as JSON
-            $payload = json_encode($body);
-            
-            // Build the binary notification
-            $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
-            
-            // Send it to the server
-            $result = fwrite($fp, $msg, strlen($msg));
-            /*
-            if (!$result)
-            	echo 'Message not delivered' . PHP_EOL;
-            else
-            	echo 'Message successfully delivered' . PHP_EOL;
-            */
-            // Close the connection to the server
-            fclose($fp);
+        if (count($receiver_ids) > 0) {
+          $passphrase = $ios_config['api_passphrase'];
+          $message = $current_user->firstName . ': ' . $_POST['chat'];
+
+          foreach ($receiver_ids as $receiver_id) {
+            $ctx = stream_context_create();
+            stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
+            stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+            $fp = stream_socket_client(
+              $ios_config['api_server'], $err,
+              $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
+
+            if ($fp) {
+              $body['aps'] = array(
+                'alert' => $message,
+                'sound' => 'default'
+              );
+              $payload = json_encode($body);
+              $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
+              $result = fwrite($fp, $msg, strlen($msg));
+              fclose($fp);
+            }
           }
         }
       }

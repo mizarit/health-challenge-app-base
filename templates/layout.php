@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php
-$cache_version = '1.0.0'.time(); ?>
+$cache_version = '1.0.1'.time(); ?>
   <link href="/css/mobile.css?t=<?php echo time(); ?>" rel="stylesheet" type="text/css" />
   <link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic" rel="stylesheet" type="text/css" />

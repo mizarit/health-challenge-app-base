@@ -28,8 +28,8 @@ if ($count > 0) {
       <li>
         <div style="position: relative;width:95%;" id="chat-input">
           <form action="#" method="post" onsubmit="sendChat();return false;">
-            <input id="chat-text" autocomplete="off" type="text" style="margin:0;width:100%;font-size:1.2em;padding:0.3em 0.2em;border-radius:0.3em;">
-            <i id="chat-enter" style="position:absolute;width:auto;right:0;left:auto;float:none;display:inline;top:0.55em;font-size: 1.6em;color:#aaa;" class="fa fa-caret-square-o-down"></i>
+            <input id="chat-text" autocomplete="off" type="text" style="margin:0.1em 0 0 0;width:99%;font-size:1.2em;padding:0.1em 0.2em;border-radius:0.3em;">
+            <i id="chat-enter" style="position:absolute;width:auto;right:-0.1em;left:auto;float:none;display:inline;top:0.15em;font-size: 1.6em;color:#aaa;" class="fa fa-caret-square-o-down"></i>
             <button type="submit" style="display:none;"></button>
           </form>
         </div>

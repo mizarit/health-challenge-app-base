@@ -96,9 +96,9 @@ button.blue-btn span {
     background: url(/img/button-arrow.png?t=1) no-repeat;
     background-size: auto 100% !important;
     position: absolute;
-    right: 1em;
-    top: 1em;
-    height: 2em;
+    right: 0.2em;
+    top: 0.2em;
+    height: 1.6em;
     width: 1.2em;
 
 }
