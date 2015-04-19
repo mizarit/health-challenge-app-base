@@ -3,6 +3,11 @@ body {
     padding: 0;
     margin: 0;
     width: 100%;
+    font-size:36px;
+}
+
+body.ios {
+  font-size: 12px;
 }
 
 html, body {
@@ -11,7 +16,7 @@ html, body {
 
 * {
   font-family: 'Proxima-Nova', sans-serif;
-  font-size: 36px;
+  /*font-size: 36px;*/
   font-style: normal;
   font-weight: 300;
 }
@@ -1017,4 +1022,11 @@ input[type=checkbox]:checked + .checkbox:before {
 input[type=checkbox]:disabled + .checkbox:before {
     background-color: #ccc;
     color: #eee;
+}
+
+
+@media screen and (max-device-width: 480px){
+  body{
+    -webkit-text-size-adjust: none;
+  }
 }

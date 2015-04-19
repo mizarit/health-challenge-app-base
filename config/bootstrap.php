@@ -25,7 +25,7 @@ if (!session_id()) session_start();
 Registry::set('jawbone_user_id',$jawbone_user_id);
 
 $device_info = $_GET;
-if (isset($_SESSION['device_info'])) {
+if (!isset($_GET['device']) && isset($_SESSION['device_info'])) {
   $device_info = json_decode($_SESSION['device_info'], true);
 }
 if (isset($device_info['device'])) {
@@ -50,16 +50,39 @@ if (isset($device_info['device'])) {
 
         $_SESSION['isAndroid'] = true;
         break;
+        
+        case 'ios':
+          $current_user->sensor = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
+          $current_user->device = 'ios';
+          $current_user->save();
+
+          if ($device_info['ios_id'] != '') {
+            $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'ios', 'pushId' => $device_info['ios_id'])));
+            if (!$notifier) {
+              $notifier = new Notifier;
+              $notifier->user_id = $current_user->id;
+              $notifier->pushDevice = 'ios';
+              $notifier->pushId = $device_info['ios_id'];
+              $notifier->save();
+            }
+          }
+
+        $_SESSION['isIos'] = true;
+        break;
     }
   }
   else {
     $_SESSION['device_info'] = json_encode($device_info);
+    switch($device_info['device']) {
+      case 'android':
+        $_SESSION['isAndroid'] = true;
+        break;
+        
+        case 'ios':
+          $_SESSION['isIos'] = true;
+        break;
+    }
   }
-
-  /*(&& $current_user->pushId == '') {
-    $current_user->pushDevice = 'android';
-    $current_user->pushId = $_GET['android_id'];
-    $current_user->save();*/
 }
 
 $action = Route::resolve();

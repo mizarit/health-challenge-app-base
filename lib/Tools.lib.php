@@ -1,60 +1,60 @@
 <?php
 
 class Tools {
-  public static function object_dump($object, $indent) {
-    return object_dump($object, $indent);
-  }
+    public static function object_dump($object, $indent) {
+        return object_dump($object, $indent);
+    }
 
-  public static function format_time($seconds) {
-    return format_time($seconds);
-  }
+    public static function format_time($seconds) {
+        return format_time($seconds);
+    }
 
 }
 
 function object_dump($object, $indent = 0)
 {
-  if ($indent == 0) {
-    echo '<pre style="font-family:Courier;font-size:13px;">';
-  }
-  if (is_object($object)) {
-    $vars = get_object_vars($object);
-  }
-  elseif(is_array($object)) {
-    $vars = $object;
-  }
-  else {
-    $vars = array();
-  }
-  foreach ($vars as $name => $var) {
-    echo str_repeat("\t",$indent);
-    echo $name;
-    if (is_object($var)) {
-      echo "\n";
-      object_dump($var, $indent + 1);
+    if ($indent == 0) {
+        echo '<pre style="font-family:Courier;font-size:13px;">';
     }
-    else if (is_array($var)) {
-      foreach ($var as $x => $var2) {
-        echo "\n";
-        echo str_repeat("\t",$indent + 1);
-        echo "{$x}\n";
-        object_dump($var2, $indent + 2);
-      }
+    if (is_object($object)) {
+        $vars = get_object_vars($object);
+    }
+    elseif(is_array($object)) {
+        $vars = $object;
     }
     else {
-      echo "\t".$var."\n";
+        $vars = array();
     }
-  }
+    foreach ($vars as $name => $var) {
+        echo str_repeat("\t",$indent);
+        echo $name;
+        if (is_object($var)) {
+            echo "\n";
+            object_dump($var, $indent + 1);
+        }
+        else if (is_array($var)) {
+            foreach ($var as $x => $var2) {
+                echo "\n";
+                echo str_repeat("\t",$indent + 1);
+                echo "{$x}\n";
+                object_dump($var2, $indent + 2);
+            }
+        }
+        else {
+            echo "\t".$var."\n";
+        }
+    }
 
-  if ($indent == 0) {
-    echo '</pre>';
-  }
+    if ($indent == 0) {
+        echo '</pre>';
+    }
 }
 
 function format_time($seconds)
 {
-  $h = floor($seconds/3600);
-  $s = round(($seconds - ($h*3600))/60);
-  return $h.':'.($s<10?'0'.$s:$s);
+    $h = floor($seconds/3600);
+    $s = round(($seconds - ($h*3600))/60);
+    return $h.':'.($s<10?'0'.$s:$s);
 }
 
 

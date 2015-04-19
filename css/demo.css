@@ -1,6 +1,6 @@
 #debug-container th {
   text-align: left;
-  width: 250px;
+  width: 7em;
 }
 #debug-container td,
 #debug-container th {
@@ -13,6 +13,7 @@
   line-height: 1em;
   margin-bottom: 0.2em;
   width: 100%;
+  
 }
 h1 {
   font-size: 3em;

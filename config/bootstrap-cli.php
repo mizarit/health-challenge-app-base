@@ -34,7 +34,7 @@ require('lib/Route.lib.php');
 require('lib/Actions.lib.php');
 require('lib/vendor/jawbone/JawboneAPI.lib.php');
 require('lib/vendor/jawbone/JawboneOAuth.lib.php');
-require('lib/vendor/fitbit/FitbitAPI.lib.php');
+//require('lib/vendor/fitbit/FitbitAPI.lib.php');
 
 /*
 for ($i = 0; $i <10; $i++) {

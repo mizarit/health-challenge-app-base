@@ -4,7 +4,7 @@
   var total_cols = <?php echo $total_cols; ?>;
   var jawbone_user_id = '<?php echo $user->xid; ?>';
   var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
-  var isIos = <?php echo $user->device=='ios'?'true':'false'; ?>;
+  var isIos = <?php echo isset($_SESSION['isIos'])?'true':'false'; ?>;
   var isAndroid = <?php echo isset($_SESSION['isAndroid'])?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
 </script>
@@ -165,7 +165,15 @@
     </div>-->
 
   </div>
-    <?php require(dirname(__FILE__).'/_settingsAndroid.php'); ?>
+    <?php
+
+   if(isset($_SESSION['isIos'])){
+     require(dirname(__FILE__).'/_settingsIos.php');
+   }
+   if(isset($_SESSION['isAndroid'])){
+     require(dirname(__FILE__).'/_settingsAndroid.php');
+   }
+?>
 
 </div>
 </div>
