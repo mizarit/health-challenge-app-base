@@ -31,6 +31,9 @@
         <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
           <span id="android-step-counter" style="position:absolute;left:1.1em;top:0.9em;font-size:1em;color:#fff;font-weight:bold;"></span>
           <i id="android-step" class="fa fa-circle" style="display:none;position:absolute;left:0.1em;top:1em;font-size:1em;color:#e7028b;"></i>
+
+          <span id="ios-step-counter" style="position:absolute;left:1.1em;top:0.9em;font-size:1em;color:#fff;font-weight:bold;"></span>
+          <i id="ios-step" class="fa fa-circle" style="display:none;position:absolute;left:0.1em;top:1em;font-size:1em;color:#e7028b;"></i>
         <?php } ?>
       <?php } ?>
 

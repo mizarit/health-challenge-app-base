@@ -1,3 +1,9 @@
+<script type="text/javascript">
+  var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+  var isIos = <?php echo isset($_SESSION['isIos'])?'true':'false'; ?>;
+  var isAndroid = <?php echo isset($_SESSION['isAndroid'])?'true':'false'; ?>;
+  <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
+</script>
 <div id="main" style="padding-top:0;">
   <div id="authentication">
     <div id="header" style="position: relative;height: auto;">
@@ -63,7 +69,7 @@ $$('#entrycode input').each(function(s,i) {
 Event.observe($('authorize-btn'), 'click', function() {
   if(!$(this).hasClassName('disabled')) {
     $('entrycode-form').submit();
-    //window.location.href='<?php echo $oauth_url; ?>';
+    //window.location.href='<?php //echo $oauth_url; ?>';
   }
 });
 </script>

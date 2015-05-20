@@ -190,7 +190,7 @@ Event.observe(window, 'load', function() {
         }
     }
 
-    if(isAndroid) {
+    if(isAndroid && typeof(Android) != 'undefined') {
         var hasSound = Android.getSetting('sound')=="1";
         var hasVibrate = Android.getSetting('vibrate')=="1";
         var hasNotifications = Android.getSetting('notifications')=="1";
@@ -201,7 +201,7 @@ Event.observe(window, 'load', function() {
         $('notifications-sound').disabled = hasNotifications ? '' : 'disabled';
     }
     
-    if(isIos) {
+    if(isIos && typeof(iOS) != 'undefined') {
         var iOS = new iOSWrapper;
         var hasSound = iOS.getSetting('sound')=="1";
         var hasVibrate = iOS.getSetting('vibrate')=="1";

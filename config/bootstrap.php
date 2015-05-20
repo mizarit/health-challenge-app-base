@@ -33,22 +33,22 @@ if (isset($device_info['device'])) {
   if ($current_user) {
     switch($device_info['device']) {
       case 'android':
-          $current_user->sensor = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
-          $current_user->device = 'android';
-          $current_user->save();
+        $current_user->sensor = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
+        $current_user->device = 'android';
+        $current_user->save();
 
-          if ($device_info['android_id'] != '') {
-            $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'android', 'pushId' => $device_info['android_id'])));
-            if (!$notifier) {
-              $notifier = new Notifier;
-              $notifier->user_id = $current_user->id;
-              $notifier->pushDevice = 'android';
-              $notifier->pushId = $device_info['android_id'];
-              $notifier->save();
-            }
+        if (isset($device_info['android_id']) && $device_info['android_id'] != '') {
+          $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'android', 'pushId' => $device_info['android_id'])));
+          if (!$notifier) {
+            $notifier = new Notifier;
+            $notifier->user_id = $current_user->id;
+            $notifier->pushDevice = 'android';
+            $notifier->pushId = $device_info['android_id'];
+            $notifier->save();
           }
-
+        }
         $_SESSION['isAndroid'] = true;
+        $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
         break;
         
         case 'ios':
@@ -56,7 +56,7 @@ if (isset($device_info['device'])) {
           $current_user->device = 'ios';
           $current_user->save();
 
-          if ($device_info['ios_id'] != '') {
+          if (isset($device_info['ios_id']) && $device_info['ios_id'] != '') {
             $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'ios', 'pushId' => $device_info['ios_id'])));
             if (!$notifier) {
               $notifier = new Notifier;
@@ -66,8 +66,8 @@ if (isset($device_info['device'])) {
               $notifier->save();
             }
           }
-
-        $_SESSION['isIos'] = true;
+          $_SESSION['isIos'] = true;
+          $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
         break;
     }
   }
@@ -76,17 +76,39 @@ if (isset($device_info['device'])) {
     switch($device_info['device']) {
       case 'android':
         $_SESSION['isAndroid'] = true;
+        $_SESSION['isIos'] = false;
         break;
         
         case 'ios':
           $_SESSION['isIos'] = true;
+          $_SESSION['isAndroid'] = false;
         break;
     }
   }
+
+  $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
 }
 
+if (!isset($_SESSION['hasSensor'])) {
+  $_SESSION['hasSensor'] = false;
+  $_SESSION['isAndroid'] = false;
+  $_SESSION['isIos'] = false;
+}
+
+//var_dump($_SESSION);
+//exit;
+
 $action = Route::resolve();
-if (is_numeric($jawbone_user_id) && !in_array($action['action'], array('signature','imagecapture'))) {
+if (is_numeric($jawbone_user_id) && !in_array($action['action'], array(
+    'signature',
+    'imagecapture',
+    'authenticateDevice',
+    'authenticateJawbone',
+    'authenticateFitbit',
+    'authenticateNative',
+    'externalPush', //Android
+    'externalPull' //iOS
+  ))) {
   $action = array('module' => 'main', 'action' => 'authenticate', 'params' => array());
 }
 

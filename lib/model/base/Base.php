@@ -212,6 +212,7 @@ class Base
     $db = Registry::get('db');
 
     $values = $this->values;
+
     foreach ($values as $k => $v) {
       $x = json_decode($v);
       if (!$x) {

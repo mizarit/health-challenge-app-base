@@ -166,10 +166,324 @@ class MainActions extends Actions {
 
   }
 
+  /** Update external pedometer measurements
+   *
+   *  Requires:
+   * - Device type ( android or ios )
+   * - Device id ( used for push notifications )
+   * - Timestamp
+   * - Steps at that moment in time
+   *
+   * These 2 values can be resolved to an xid
+   *
+   * */
+  public function executeExternalPush($params = array())
+  {
+    $notifier = Notifier::model()->findByAttributes(new Criteria(array('pushDevice' => $params['device'], 'pushId' => $params['device_id'])));
+    if ($notifier) {
+      $user = $notifier->user;
+      if ($user) {
+        $newDay = false;
+
+        $date = date('Y-m-d',$params['timestamp']);
+        $day = Day::model()->findByAttributes(new Criteria(array(
+          'user_id' => $user->id,
+          'date' => $date
+        )));
+        if (!$day) {
+          $day = new Day;
+          $day->user_id = $user->id;
+          $day->date = $date;
+
+          $newDay = true;
+        }
+
+        $steps = $params['steps'];
+        // check if this is the first measurement ever
+        // if so, the steps reported is our base value and should reset to 0
+        // TODO
+
+        $step_distance = ($user->height * 100) * 0.414;
+        $distance = $step_distance * $steps;
+        $day->km = $distance / 100000;
+        $day->steps = $steps;
+        $day->reported = $params['steps'];
+        $day->save();
+
+        $hour = date('H', $params['timestamp']);
+        $minutes = date('i', $params['timestamp']);
+        if ($minutes < 15) {
+          $minutes = 0;
+        }
+        else if ($minutes < 30) {
+          $minutes = 15;
+        }
+        else if ($minutes < 45) {
+          $minutes = 30;
+        }
+        else  {
+          $minutes = 45;
+        }
+        $hour_o = Hour::model()->findByAttributes(new Criteria(array(
+          'day_id' => $day->id,
+          'hour' => $hour
+        )));
+        if (!$hour_o) {
+          $hour_o = new Hour;
+          $hour_o->day_id = $day->id;
+          $hour_o->hour = $hour;
+          $hour_o->quarters = json_encode(array(0 => 0, 15 => 0, 30 => 0, 45 => 0));
+        }
+        $quarters = json_decode($hour_o->quarters, true);
+
+        if ($minutes == 0) {
+          if ($newDay) {
+            // todo: get steps of previous day
+            // if current steps < last day, a reset was made, so just take the value from the sensor
+            // if current steps > last day, substract steps of last day, sensor was not reset
+           /* $days = Day::model()->findAllByAttributes(new Criteria(array(
+              'user_id' => $user->id
+            )));
+            if ($days && count($days) >= 2) {
+              $today = array_pop($days);
+              $day_before = array_pop($days);
+              $offset =
+            }*/
+          }
+          else {
+            $hours = Hour::model()->findAllByAttributes(new Criteria(array(
+              'day_id' => $day->id
+            )));
+
+            if ($hours) {
+              $prev_steps = 0;
+              foreach ($hours as $h) {
+                if ($h->id == $hour_o->id) continue;
+                $prev_steps += $h->steps;
+              }
+              if ($steps >= $prev_steps) {
+                // counter did not reset on reboot
+                $steps = $steps - $prev_steps;
+              }
+            }
+          }
+          $quarters[$minutes] = $steps;
+        }
+        else if ($minutes == 15) {
+          $quarters[$minutes] = $params['steps'] - $quarters[0];
+        }
+        else if ($minutes == 30) {
+          $quarters[$minutes] = $params['steps'] - ($quarters[0]+$quarters[15]);
+        }
+        else if ($minutes == 45) {
+          $quarters[$minutes] = $params['steps'] - ($quarters[0]+$quarters[15]+$quarters[30]);
+        }
+
+        $hour_o->quarters = json_encode($quarters);
+
+        $hour_o->steps = $steps;
+        $hour_o->reported = $params['steps']; // raw value, for testing purposes
+
+        $distance = $step_distance * $steps;
+        $hour_o->km = $distance / 100000;
+        $hour_o->save();
+
+        // todo: calculate total steps
+        echo "OK";
+        exit;
+      }
+
+    }
+    echo "NOT OK";
+    exit;
+  }
+
+  public function executeExternalPull($params = array())
+  {
+    $ios_config = Registry::get('push_ios');
+    if ($ios_config['enabled']) {
+      $users = User::model()->findAllByAttributes(new Criteria(array('adapter' => 'native', 'device' => 'ios'/*, 'sensor' => 1*/)));
+      if ($users) {
+        foreach ($users as $user) {
+          // find notifiers for this user
+          $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $user->id,'pushDevice' => 'ios')));
+          if($notifiers) {
+            foreach ($notifiers as $notifier) {
+
+              $receiver_ids = array();
+              $receiver_ids[] = $notifier->pushId;
+
+              if (count($receiver_ids) > 0) {
+                $passphrase = $ios_config['api_passphrase'];
+
+                foreach ($receiver_ids as $receiver_id) {
+                  $ctx = stream_context_create();
+                  stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
+                  stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+                  $fp = stream_socket_client(
+                    $ios_config['api_server'], $err,
+                    $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
+
+                  if ($fp) {
+                    $body['aps'] = array(
+                      'alert' => '',
+                      'content-available' => 0,
+                      'badge' => (int)0,
+                      'payload' => 'sync',
+                      'payload_params' => ""
+                    );
+
+                    $payload = json_encode($body);
+                    $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
+                    $result = fwrite($fp, $msg, strlen($msg));
+                    fclose($fp);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    echo 'OK';
+    exit;
+  }
+
   public function executeAuthenticate($params = array())
   {
-    $this->executeAuthenticateJawbone($params);
+    if (isset($_POST['digit-1'])) {
+      $code = $_POST['digit-1'].$_POST['digit-2'].$_POST['digit-3'].$_POST['digit-4'].$_POST['digit-5'].$_POST['digit-6'];
+      $model = Entrycode::model()->findByAttributes(new Criteria(array('code' => $code)));
+      if (!$model) {
+        $this->errors = array('entrycode' => 'Onbekende persoonlijke code');
+      }
+      else {
+        $_SESSION['entrycode'] = $model->id;
+        header('Location: /main/authenticateDevice');
+        $this->executeAuthenticateDevice($params);
+        exit;
+      }
+    }
+
+    //$this->executeAuthenticateJawbone($params);
     //$this->executeAuthenticateFitbit($params);
+    //$this->executeAuthenticateNative($params);
+  }
+
+  public function executeAuthenticateDevice($params = array())
+  {
+    if(!$_SESSION['hasSensor']) {
+      $this->executeAuthenticateJawbone($params);
+      exit;
+    }
+
+    if (isset($_GET['sensorDevice'])) {
+      switch($_GET['sensorDevice']) {
+        case 'native':
+          header('Location: /main/authenticateNative');
+          exit;
+          break;
+
+        case 'jawbone':
+          header('Location: /main/authenticateJawbone');
+          exit;
+      }
+    }
+  }
+
+  public function executeAuthenticateNative($params = array())
+  {
+    if (isset($_POST['name'])) {
+      $xid = 'native'.time().rand(1000000,9999999);
+
+      $user = User::model()->findByAttributes(new Criteria(array('xid' => $xid)));
+      if (!$user) {
+        $user = new User;
+        $user->xid = $xid;
+        $user->firstName = $_POST['name'];
+        $height = $_POST['height'];
+        if (!is_numeric($height) || $height < 120 || $height > 220) $height = 170;
+        $user->height = $height / 100;
+        $user->target = 6000;
+        $user->adapter = 'native';
+        $user->sensor = 1;
+      }
+
+      $user->save();
+
+      $entrycode = Entrycode::model()->findByPk($_SESSION['entrycode']);
+      $challenge = Challenge::model()->findByPk($entrycode->challenge_id);
+      $team = false;
+      if ($entrycode->team_id) {
+        $team = Team::model()->findByPk($entrycode->team_id);
+      }
+
+      $challenge_user = ChallengeUser::model()->findByAttributes(new Criteria(array(
+        'challenge_id' => $challenge->id,
+        'user_id' => $user->id
+      )));
+      if (!$challenge_user) {
+        $challenge_user = new ChallengeUser();
+        $challenge_user->user_id = $user->id;
+        $challenge_user->challenge_id = $challenge->id;
+        $challenge_user->save();
+      }
+
+      $teams = Team::model()->findAllByAttributes(new Criteria(array(
+        'challenge_id' => $challenge->id
+      )));
+
+      $valid_teams = array();
+      $valid_teams_objects = array();
+      foreach ($teams as $tteam) {
+        $valid_teams[] = $tteam->id;
+        $valid_teams_objects[$tteam->id] = $tteam;
+      }
+
+      $user_teams = TeamUser::model()->findAllByAttributes(new Criteria(array(
+        'user_id' => $user->id
+      )));
+      $linked_teams = array();
+      foreach ($user_teams as $user_team) {
+        $linked_teams[] = $user_team->team_id;
+      }
+
+      if ($team) {
+        // a team was preselected for this entry code, check if it is already linked
+        if (!in_array($team->id, $linked_teams)) {
+          $link = new TeamUser;
+          $link->team_id = $team->id;
+          $link->user_id = $user->id;
+          $link->save();
+        }
+      }
+      else {
+        // no team was preselected, determine best team, but only if no team was already linked
+        $has_link = false;
+        foreach ($linked_teams as $linked_team) {
+          if (in_array($linked_team, $valid_teams)) {
+            $has_link = true;
+          }
+        }
+
+        if (!$has_link) {
+          $total_teams = count($valid_teams);
+          $team = rand(1, $total_teams);
+          $team_id = $valid_teams_objects[$valid_teams[$team - 1]]->id;
+
+          $link = new TeamUser;
+          $link->team_id = $team_id;
+          $link->user_id = $user->id;
+          $link->save();
+        }
+      }
+
+      setcookie('xid_id', $user->xid, strtotime('+1 year'), '/');
+
+      header('Location: '.(isset($params['redirect']) ? $params['redirect'] : '/main/welcome'));
+      exit;
+    }
   }
 
   public function executeAuthenticateFitbit($params = array())
@@ -229,11 +543,15 @@ class MainActions extends Actions {
 
   public function executeAuthenticateJawbone($params = array())
   {
-    $oauth_url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id='.Registry::get('client_id').'&scope='.urlencode('basic_read extended_read move_read weight_read sleep_read meal_read mood_read heartrate_read').'&redirect_uri='.urlencode('https://'.$_SERVER['SERVER_NAME'].'/main/authenticate');
+    $oauth_url = 'https://jawbone.com/auth/oauth2/auth?response_type=code&client_id='.Registry::get('client_id').'&scope='.urlencode('basic_read extended_read move_read weight_read sleep_read meal_read mood_read heartrate_read').'&redirect_uri='.urlencode('https://'.$_SERVER['SERVER_NAME'].'/main/authenticateJawbone');
 
     $this->oauth_url = $oauth_url;
 
-    if (isset($_POST['digit-1'])) {
+    if (!isset($_GET['code'])) {
+      header('Location: '.$oauth_url);
+      exit;
+    }
+    /*if (isset($_POST['digit-1'])) {
       $code = $_POST['digit-1'].$_POST['digit-2'].$_POST['digit-3'].$_POST['digit-4'].$_POST['digit-5'].$_POST['digit-6'];
       $model = Entrycode::model()->findByAttributes(new Criteria(array('code' => $code)));
       if (!$model) {
@@ -244,7 +562,7 @@ class MainActions extends Actions {
         header('Location: '.$oauth_url);
         exit;
       }
-    }
+    }*/
     $url = false;
 
     if (isset($_GET['code'])) {

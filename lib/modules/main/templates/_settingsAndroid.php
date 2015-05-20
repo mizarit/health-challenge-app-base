@@ -13,12 +13,14 @@
 </div>
 <script type="text/javascript">
 Event.observe(window, 'load', function() {
-  $('notifications').checked = (Android.getSetting('notifications') == "1");
-  $('notifications-vibrate').checked = (Android.getSetting('vibrate') == "1");
-  $('notifications-sound').checked = (Android.getSetting('sound') == "1");
-  if (Android.getSetting('notifications') == "0") {
-    $('notifications-vibrate').disabled = 'disabled';
-    $('notifications-sound').disabled = 'disabled';
+  if( typeof(Android) != 'undefined') {
+    $('notifications').checked = (Android.getSetting('notifications') == "1");
+    $('notifications-vibrate').checked = (Android.getSetting('vibrate') == "1");
+    $('notifications-sound').checked = (Android.getSetting('sound') == "1");
+    if (Android.getSetting('notifications') == "0") {
+      $('notifications-vibrate').disabled = 'disabled';
+      $('notifications-sound').disabled = 'disabled';
+    }
   }
 });
 </script>

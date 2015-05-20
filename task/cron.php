@@ -8,6 +8,8 @@ error_reporting(E_ALL);
 require('config/bootstrap-cli.php');
 $users = User::model()->findAll();
 foreach ($users as $user) {
+  if ($user->adapter != 'jawbone') continue;
+
   echo $user->firstName.' '.$user->lastName.PHP_EOL;
 
   // find challenge for this user
