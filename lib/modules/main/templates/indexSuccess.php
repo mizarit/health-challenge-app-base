@@ -24,12 +24,12 @@
       <?php if ($iOS) { ?>
         <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
         <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.7em;top:0.4em;padding:0;margin:0;"></button>
-        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
+        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
           <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
         <?php } ?>
       <?php } else { ?>
         <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.4em;top:0.3em;padding:0;margin:0;"></button>
-        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
+        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
           <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
         <?php } ?>
 
@@ -43,9 +43,10 @@
       <?php } ?>
 
       <?php echo $challenge->title; ?></h2>
-  </div>
+    </div>
   <h4 class="subteaser"  id="subteaser1"><?php echo $challenge->teaser3; ?></h4>
-    <div id="page-1" class="active">
+  <div id="page-1" class="active">
+
     <div class="race-track" id="race-track-1">
       <div id="race-track-bar-1" onclick="goPage(3,1);"><div id="race-track-inner-bar-1" onclick="goPage(3,1);"></div><div class="closer"></div></div>
       <div id="race-track-bar-2" onclick="goPage(3,2);"><div id="race-track-inner-bar-2" onclick="goPage(3,2);"></div><div class="closer"></div></div>

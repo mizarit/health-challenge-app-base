@@ -1,31 +1,33 @@
 <div id="main" style="padding-top:0;">
   <div id="authentication">
     <div id="header" style="position: relative;height: auto;">
-      <h1 style="color:#fff;font-size:1.2em;margin:0;padding:0;font-weight:normal;">Kies je</h1>
-      <h2 style="color:#fff;font-size:3em;margin:0;padding:0;line-height:1em;">Stappenteller</h2>
+      <h2 style="font-weight:bold;color:#fff;margin:0.1em 0 0 0;position:relative;padding:0;text-transform: uppercase;font-size:2em;"><?php echo $challenge->title; ?></h2>
     </div>
-
-    <div style="width:19em;margin:0 auto;margin-top:2em;">
-      <?php if ($_SESSION['isAndroid']) { ?>
-    <div id="device-native" style="cursor:pointer;float:left;margin-right:0.3em;"><img style="border-radius:0.4em;width:6em;" src="/img/devices/googlefit.png" alt="Google Fit"></div>
-      <?php } ?>
-      <?php if ($_SESSION['isIos']) { ?>
-        <div id="device-native" style="cursor:pointer;float:left;margin-right:0.3em;"><img style="border-radius:0.4em;width:6em;" src="/img/devices/healthkit.png" alt="Apple Health Kit"></div>
-      <?php } ?>
-    <div id="device-jawbone-1" style="cursor:pointer;float:left;margin-right:0.3em;"><img style="border-radius:0.4em;width:6em;" src="/img/devices/jawbone1.png" alt="Jawbone Move"></div>
-    <div id="device-jawbone-2" style="cursor:pointer;float:left;margin-right:0.3em;"><img style="border-radius:0.4em;width:6em;" src="/img/devices/jawbone2.png" alt="Jawbone Up"></div>
-    </div>
-    </div>
+    <h4 class="subteaser"  id="subteaser1">Kies je stappenteller</h4>
   </div>
+</div>
+
+<ul id="device-list">
+  <?php if (isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']) { ?>
+    <li id="device-native" class="device-native"><img src="/img/brand-googlefit.gif"></li>
+  <?php } ?>
+  <?php if (isset($_SESSION['isIos']) && $_SESSION['isIos']) { ?>
+    <li id="device-native" class="device-native"><img src="/img/brand-healthkit.gif"></li>
+  <?php } ?>
+
+  <li id="device-jawbone" class="device-jawbone"><img src="/img/brand-jawbone.gif"></li>
+  <li id="device-fitbit" class="device-fitbit"><img src="/img/brand-fitbit.gif"></li>
+  <li class="device-none">Mijn merk zit er niet bij</li>
+</ul>
 <script type="text/javascript">
-  $(body).style.background = '#25beef';
+ // $(body).style.background = '#25beef';
   Event.observe($('device-native'), 'click', function() {
     window.location.href='/main/authenticateDevice?sensorDevice=native';
   });
-  Event.observe($('device-jawbone-1'), 'click', function() {
+  Event.observe($('device-jawbone'), 'click', function() {
     window.location.href='/main/authenticateDevice?sensorDevice=jawbone';
   });
-  Event.observe($('device-jawbone-2'), 'click', function() {
-    window.location.href='/main/authenticateDevice?sensorDevice=jawbone';
+  Event.observe($('device-fitbit-'), 'click', function() {
+    window.location.href='/main/authenticateDevice?sensorDevice=fitbit';
   });
 </script>

@@ -15,6 +15,8 @@ window.Swipeable = Class.create({
         //this.curX = null;
         //this.curY = null;
 
+        this.rangeSlider = false;
+
         this.el.observe("touchstart", this.onTouchStart.bind(this));
         this.el.observe("touchmove", this.onTouchMove.bind(this));
         this.el.observe("touchend", this.onTouchEnd.bind(this));
@@ -32,6 +34,9 @@ window.Swipeable = Class.create({
             this.lastStartX = this.startX;
             this.lastStartY = this.startY;
         }
+        if(event.target.type == 'range') {
+            this.rangeSlider = true;
+        }
     },
     onTouchMove: function (event) {
         //event.stop();
@@ -47,8 +52,13 @@ window.Swipeable = Class.create({
 
         //$('swipe-value').innerHTML = dir;
         if (dir == 'left' || dir == 'right') {
-
-        event.preventDefault();
+            // determine if this is a input type=range
+            // if so, do not prevent default behaviours
+            if(!this.rangeSlider) {
+                //alert(typeof(this.currentElement));
+                //alert(this.currentElement.type);
+                event.preventDefault();
+            }
         }
 
     },
@@ -62,6 +72,7 @@ window.Swipeable = Class.create({
         }
 
         this.resetCoords()
+        this.rangeSlider = false;
     },
     onTouchCancel: function (event) {
         this.resetCoords();

@@ -482,8 +482,10 @@ class MainActions extends Actions {
   }
   public function executeAuthenticate($params = array())
   {
-    if (isset($_POST['digit-1'])) {
-      $code = $_POST['digit-1'].$_POST['digit-2'].$_POST['digit-3'].$_POST['digit-4'].$_POST['digit-5'].$_POST['digit-6'];
+    //if (isset($_POST['digit-1'])) {
+    //  $code = $_POST['digit-1'].$_POST['digit-2'].$_POST['digit-3'].$_POST['digit-4'].$_POST['digit-5'].$_POST['digit-6'];
+    if (isset($_POST['digits'])) {
+        $code = $_POST['digits'];
       $model = Entrycode::model()->findByAttributes(new Criteria(array('code' => $code)));
       if (!$model) {
         $this->errors = array('entrycode' => 'Onbekende persoonlijke code');
@@ -508,6 +510,10 @@ class MainActions extends Actions {
       exit;
     }
 
+    $model = Entrycode::model()->findByPk($_SESSION['entrycode']);
+    $challenge = Challenge::model()->findByPk($model->challenge_id);
+    $this->challenge = $challenge;
+
     if (isset($_GET['sensorDevice'])) {
       switch($_GET['sensorDevice']) {
         case 'native':
@@ -524,6 +530,10 @@ class MainActions extends Actions {
 
   public function executeAuthenticateNative($params = array())
   {
+    $model = Entrycode::model()->findByPk($_SESSION['entrycode']);
+    $challenge = Challenge::model()->findByPk($model->challenge_id);
+    $this->challenge = $challenge;
+
     if (isset($_POST['name'])) {
       $xid = 'native'.time().rand(1000000,9999999);
 

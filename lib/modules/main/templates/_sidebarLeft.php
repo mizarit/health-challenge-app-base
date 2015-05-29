@@ -19,11 +19,16 @@ if ($count > 0) {
       </li>
       <li><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
     </ul>
-        <?php if($user->device=='android'){ ?>
-            <ul>
-            <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
-            </ul>
-        <?php } ?>
+    <?php if($user->device=='android'){ ?>
+      <ul>
+        <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
+      </ul>
+    <?php } ?>
+    <?php if($user->device=='ios'){ ?>
+      <ul>
+        <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
+      </ul>
+    <?php } ?>
     <ul>
       <li>
         <div style="position: relative;width:95%;" id="chat-input">

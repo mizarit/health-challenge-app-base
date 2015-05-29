@@ -114,6 +114,18 @@ function formatDistance(distance)
     return distance.toFixed(2).replace('.', ',');
 }
 
+function formatHeight(height)
+{
+    if (height > 1000) {
+        p3 = Math.floor(height / 1000);
+        p4 = height - (p3*1000);
+        p5 = p4.toFixed(2)-p4.toFixed();
+        return p3 + '.' + ("0000"+p4.toFixed()).slice(-3)+','+(p5.toFixed(2).slice(-2));
+    }
+    return height.toFixed(2);
+}
+
+
 function toggleSidebar(which)
 {
     if (which =='sidebar-left' && $('sidebar-right').hasClassName('active')) {

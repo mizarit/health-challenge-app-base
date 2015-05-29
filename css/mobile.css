@@ -1040,3 +1040,130 @@ input[type=checkbox]:disabled + .checkbox:before {
     -webkit-text-size-adjust: none;
   }
 }
+
+input[type=range]{
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 90% !important;
+    height: 2em;
+    background: #ddd;
+    border: none;
+    border-radius: 0.2em;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 6em;
+    width: 6em;
+    border-radius: 50%;
+    background: goldenrod;
+    margin-top: -2em;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+#height-value {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+
+#entrycode-inner {
+    background: url(/img/digits-bkg.png) no-repeat;
+    background-size:100%;
+    width: 20em;
+    min-height: 5em;
+    margin: 0 auto;
+}
+
+#entrycode-inner input {
+    background: none;
+    border: none;
+    font-size: 3em;
+    font-family: Courier;
+    padding: 0;
+    margin: 0;
+    line-height: 0.1em !important;
+    letter-spacing: 0.5em;
+    vertical-align: top;
+    padding: 0.2em 0 0 0.2em;
+    width: 6.1em;
+    height: auto;
+    color: #fff;
+}
+
+*:focus {
+    outline: 0;
+}
+
+#device-list {
+    padding: 0;
+    margin: 0.3em 0.3em 0 0.3em;
+
+}
+
+#device-list li {
+    height: 2em;
+    background: #cecece;
+    list-style: none;
+    margin-bottom: 0.2em;
+    padding: 0;
+    font-size: 1.8em;
+    line-height: 2em;
+    text-align: center;
+}
+
+#device-list li img {
+    max-height: 1.6em;
+}
+
+#device-list li.device-jawbone {
+    background: #fc3e78;
+    padding-top: 0.3em;
+    height: 1.7em;
+}
+
+#device-list li.device-fitbit {
+    background: #0db7b6;
+    padding-top: 0.2em;
+    height: 1.8em;
+}
+
+#device-list li.device-native {
+    background: #93a8af;
+    padding-top: 0.2em;
+    height: 1.8em;
+}
+
+#device-list li.device-none {
+    background: #c7c7c7;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#height-value {
+    color: #fff;
+}
+
+#name {
+    border: #fff 2px solid;
+    border-radius: none;
+    color: #fff;
+    font-weight: bold;
+    background: rgb(0,181,232);
+    background: -moz-linear-gradient(top,  rgba(0,181,232,1) 0%, rgba(0,181,232,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,181,232,1)), color-stop(100%,rgba(0,181,232,1)));
+    background: -webkit-linear-gradient(top,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
+    background: -o-linear-gradient(top,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
+    background: linear-gradient(to bottom,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b5e8', endColorstr='#00b5e8',GradientType=0 );
+}
