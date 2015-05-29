@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82d3223c-faf5-47d6-928b-e3d67b2f91c7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/_sidebarLeft.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/_sidebarLeft.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/actions/actions.class.php" afterPath="$PROJECT_DIR$/lib/modules/main/actions/actions.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/authenticateSuccess.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/authenticateSuccess.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php" afterPath="$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/mobile.css" afterPath="$PROJECT_DIR$/css/mobile.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/mobile.js" afterPath="$PROJECT_DIR$/js/mobile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/swipeable.js" afterPath="$PROJECT_DIR$/js/swipeable.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -39,11 +36,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="actions.class.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="actions.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/modules/main/actions/actions.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.75116277" vertical-offset="8313" max-vertical-offset="30379">
-              <caret line="527" column="5" selection-start-line="527" selection-start-column="5" selection-end-line="527" selection-end-column="5" />
+            <state vertical-scroll-proportion="-13.807693" vertical-offset="7852" max-vertical-offset="30583">
+              <caret line="483" column="2" selection-start-line="483" selection-start-column="2" selection-end-line="492" selection-end-column="3" />
               <folding>
                 <element signature="e#7#39#0#PHP" expanded="true" />
               </folding>
@@ -51,41 +48,81 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="mobile.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/mobile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="7743" max-vertical-offset="9197">
+              <caret line="516" column="17" selection-start-line="516" selection-start-column="17" selection-end-line="516" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="swipeable.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/swipeable.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.67895544" vertical-offset="816" max-vertical-offset="2023">
+              <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="authenticateNativeSuccess.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.076923" vertical-offset="585" max-vertical-offset="1513">
-              <caret line="59" column="4" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="81" />
+            <state vertical-scroll-proportion="-18.153847" vertical-offset="888" max-vertical-offset="1513">
+              <caret line="80" column="3" selection-start-line="71" selection-start-column="2" selection-end-line="80" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_settingsAndroid.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.769231" vertical-offset="663" max-vertical-offset="1292">
+              <caret line="57" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding>
-                <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="authenticateDeviceSuccess.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php">
+      <file leaf-file-name="_settingsIos.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="646">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-13.730769" vertical-offset="765" max-vertical-offset="1462">
+              <caret line="66" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="80" selection-end-column="8" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_sidebarLeft.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_sidebarLeft.php">
+      <file leaf-file-name="indexSuccess.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-30.0" vertical-offset="257" max-vertical-offset="1139">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="37.923077" vertical-offset="1479" max-vertical-offset="3332">
+              <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
+              <folding>
+                <element signature="n#style#0;n#span#0;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#3;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,8 +130,8 @@
       <file leaf-file-name="mobile.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/mobile.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="18766" max-vertical-offset="19975">
-              <caret line="1126" column="0" selection-start-line="1126" selection-start-column="0" selection-end-line="1126" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="19337" max-vertical-offset="19975">
+              <caret line="1152" column="16" selection-start-line="1152" selection-start-column="16" selection-end-line="1152" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -123,19 +160,20 @@
         <option value="$PROJECT_DIR$/task/cron.php" />
         <option value="$PROJECT_DIR$/lib/model/Notifier.php" />
         <option value="$PROJECT_DIR$/lib/model/base/Base.php" />
-        <option value="$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php" />
         <option value="$PROJECT_DIR$/js/app-android.js" />
         <option value="$PROJECT_DIR$/config/bootstrap.php" />
         <option value="$PROJECT_DIR$/config/config.php" />
-        <option value="$PROJECT_DIR$/js/mobile.js" />
-        <option value="$PROJECT_DIR$/js/swipeable.js" />
         <option value="$PROJECT_DIR$/lib/modules/main/templates/authenticateSuccess.php" />
-        <option value="$PROJECT_DIR$/lib/modules/main/actions/actions.class.php" />
         <option value="$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php" />
         <option value="$PROJECT_DIR$/lib/modules/main/templates/_sidebarLeft.php" />
-        <option value="$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php" />
         <option value="$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php" />
         <option value="$PROJECT_DIR$/css/mobile.css" />
+        <option value="$PROJECT_DIR$/lib/modules/main/actions/actions.class.php" />
+        <option value="$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php" />
+        <option value="$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php" />
+        <option value="$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php" />
+        <option value="$PROJECT_DIR$/js/mobile.js" />
+        <option value="$PROJECT_DIR$/js/swipeable.js" />
       </list>
     </option>
   </component>
@@ -171,7 +209,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -360,6 +397,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -390,15 +428,15 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="483b8d99-1f99-43ce-846d-956b010d18aa" server_name="app.healthchallenge.nl dev">
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
       <pass-parent-env-vars>false</pass-parent-env-vars>
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="483b8d99-1f99-43ce-846d-956b010d18aa" server_name="app.healthchallenge.nl dev">
       <method />
     </configuration>
     <list size="0" />
@@ -451,7 +489,7 @@
     <frame x="1912" y="0" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26968718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26968718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29449838" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -459,20 +497,20 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32800853" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3312034" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32972974" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -502,7 +540,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/lib/modules/main/actions/actions.class.php</url>
-          <line>585</line>
+          <line>597</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -686,13 +724,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/debugSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25290024" vertical-offset="1686" max-vertical-offset="4199">
-          <caret line="112" column="141" selection-start-line="112" selection-start-column="141" selection-end-line="112" selection-end-column="151" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/push.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.53828573" vertical-offset="124" max-vertical-offset="1020">
@@ -725,13 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="323">
           <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/app-ios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
-          <caret line="26" column="30" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -769,23 +793,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4662857" vertical-offset="0" max-vertical-offset="875">
           <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="527">
-          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.038462" vertical-offset="0" max-vertical-offset="493">
-          <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -802,96 +809,135 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/mobile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9616253" vertical-offset="1290" max-vertical-offset="9197">
-          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/swipeable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8320356" vertical-offset="510" max-vertical-offset="2023">
-          <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7594502" vertical-offset="0" max-vertical-offset="1054">
           <caret line="39" column="1" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-          <folding>
-            <element signature="n#style#0;n#p#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/layout.php">
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.077892326" vertical-offset="0" max-vertical-offset="873">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6127907" vertical-offset="0" max-vertical-offset="3332">
-          <caret line="31" column="107" selection-start-line="31" selection-start-column="107" selection-end-line="31" selection-end-column="107" />
+        <state vertical-scroll-proportion="0.408" vertical-offset="0" max-vertical-offset="875">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_sidebarLeft.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-30.0" vertical-offset="257" max-vertical-offset="1139">
+        <state vertical-scroll-proportion="0.8914286" vertical-offset="257" max-vertical-offset="1139">
           <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php">
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/debugSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-16.076923" vertical-offset="585" max-vertical-offset="1513">
-          <caret line="59" column="4" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="81" />
-          <folding>
-            <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#form#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-1.1111112" vertical-offset="2652" max-vertical-offset="4199">
+          <caret line="116" column="4" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateDeviceSuccess.php">
+    <entry file="file://$PROJECT_DIR$/templates/layout.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769" vertical-offset="0" max-vertical-offset="646">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.1088" vertical-offset="0" max-vertical-offset="629">
+          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/app-ios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6605223" vertical-offset="675" max-vertical-offset="1632">
+          <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/indexSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="37.923077" vertical-offset="1479" max-vertical-offset="3332">
+          <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#3;n#h2#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/mobile.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="18766" max-vertical-offset="19975">
-          <caret line="1126" column="0" selection-start-line="1126" selection-start-column="0" selection-end-line="1126" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="19337" max-vertical-offset="19975">
+          <caret line="1152" column="16" selection-start-line="1152" selection-start-column="16" selection-end-line="1152" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsAndroid.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.769231" vertical-offset="663" max-vertical-offset="1292">
+          <caret line="57" column="21" selection-start-line="0" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/_settingsIos.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.730769" vertical-offset="765" max-vertical-offset="1462">
+          <caret line="66" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="80" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/main/templates/authenticateNativeSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.153847" vertical-offset="888" max-vertical-offset="1513">
+          <caret line="80" column="3" selection-start-line="71" selection-start-column="2" selection-end-line="80" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/modules/main/actions/actions.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.75116277" vertical-offset="8313" max-vertical-offset="30379">
-          <caret line="527" column="5" selection-start-line="527" selection-start-column="5" selection-end-line="527" selection-end-column="5" />
+        <state vertical-scroll-proportion="-13.807693" vertical-offset="7852" max-vertical-offset="30583">
+          <caret line="483" column="2" selection-start-line="483" selection-start-column="2" selection-end-line="492" selection-end-column="3" />
           <folding>
             <element signature="e#7#39#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/mobile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7743" max-vertical-offset="9197">
+          <caret line="516" column="17" selection-start-line="516" selection-start-column="17" selection-end-line="516" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/swipeable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.67895544" vertical-offset="816" max-vertical-offset="2023">
+          <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>

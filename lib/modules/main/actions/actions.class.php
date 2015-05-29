@@ -480,6 +480,18 @@ class MainActions extends Actions {
     echo "OK";
     exit;
   }
+
+  public function executeSettings($params = array())
+  {
+    $jawbone_user_id = Registry::get('jawbone_user_id');
+    $current_user = User::model()->findByAttributes(new Criteria(array('xid' => $jawbone_user_id)));
+    $current_user->firstName = $_POST['name'];
+    $current_user->height = $_POST['height'] / 100;
+    $current_user->save();
+    echo 'OK';
+    exit;
+  }
+
   public function executeAuthenticate($params = array())
   {
     //if (isset($_POST['digit-1'])) {

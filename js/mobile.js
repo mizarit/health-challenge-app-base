@@ -514,7 +514,7 @@ function goPage(page_id, team_id)
 
     if (page_id==1) {
         $('back-button').hide();
-        if (iOS) {
+        if (isIos) {
             $('menu-button').show();
         }
         //$('subteaser1').show();
@@ -522,7 +522,7 @@ function goPage(page_id, team_id)
     }
     else {
         $('back-button').show();
-        if (iOS) {
+        if (isIos) {
             $('menu-button').hide();
         }
         //$('subteaser1').hide();

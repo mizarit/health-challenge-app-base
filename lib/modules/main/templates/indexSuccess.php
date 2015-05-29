@@ -3,7 +3,7 @@
   var current_date = '<?php echo date('Y-m-d'); ?>';
   var total_cols = <?php echo $total_cols; ?>;
   var jawbone_user_id = '<?php echo $user->xid; ?>';
-  var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+ // var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
   var isIos = <?php echo isset($_SESSION['isIos'])?'true':'false'; ?>;
   var isAndroid = <?php echo isset($_SESSION['isAndroid'])?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
@@ -23,12 +23,12 @@
 
       <?php if ($iOS) { ?>
         <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
-        <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.7em;top:0.4em;padding:0;margin:0;"></button>
+        <button class="fa fa-caret-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
         <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
           <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
         <?php } ?>
       <?php } else { ?>
-        <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.4em;top:0.3em;padding:0;margin:0;"></button>
+        <button class="fa fa-caret-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
         <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
           <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
         <?php } ?>
