@@ -16,6 +16,11 @@
 
   <div id="header">
     <h2 style="font-weight:bold;color:#fff;margin:0.1em 0 0 0;position:relative;padding:0;text-transform: uppercase;font-size:2em;">
+      <span id="chat-count" style="display:none;position:absolute;left:0.1em;top:0;">
+        <i id="chat-count-value" class="fa fa-circle" style="position:absolute;left:0;top:0;font-size:1em;color:#c00;"></i>
+        <span style="position:absolute;left:0.34em;top:0.1em;font-size:0.7em;font-weight:bold;"></span>
+      </span>
+
       <?php if ($iOS) { ?>
         <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
         <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.7em;top:0.4em;padding:0;margin:0;"></button>
@@ -106,15 +111,17 @@
     </div>
 
     <div style="clear:both;"></div>
-    <div class="cell-a"><div style="border-top:0;">Actieve tijd<br><span id="cell-active-time"></span></div></div>
-    <div class="cell-b"><div style="border-top:0;">Totaal verbrand<br><span id="cell-cal-total"></span></div></div>
-    <div class="cell-a"><div>Langst actief<br><span id="cell-longest-active-time"></span></div></div>
-    <div class="cell-b"><div>Actief verbrand<br><span id="cell-cal-active"></span></div></div>
-    <div class="cell-a"><div>Langst inactief<br><span id="cell-inactive-time"></span></div></div>
-    <div class="cell-b"><div>Rustend verbrand<br><span id="cell-cal-rest"></span></div></div>
+    <div style="display:<?php echo $user->adapter=='jawbone'?'block':'none'; ?>">
+      <div class="cell-a"><div style="border-top:0;">Actieve tijd<br><span id="cell-active-time"></span></div></div>
+      <div class="cell-b"><div style="border-top:0;">Totaal verbrand<br><span id="cell-cal-total"></span></div></div>
+      <div class="cell-a"><div>Langst actief<br><span id="cell-longest-active-time"></span></div></div>
+      <div class="cell-b"><div>Actief verbrand<br><span id="cell-cal-active"></span></div></div>
+      <div class="cell-a"><div>Langst inactief<br><span id="cell-inactive-time"></span></div></div>
+      <div class="cell-b"><div>Rustend verbrand<br><span id="cell-cal-rest"></span></div></div>
+      <div style="clear:both;"></div>
+    </div>
 
-    <div style="clear:both;"></div>
-    <div class="suggest"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna lacus, cursus vel purus eu, lacinia iaculis enim. Phasellus porta libero quis tortor venenatis, nec viverra dui venenatis. Nam augue dui, posuere ut dolor ac, venenatis finibus est. Vivamus tristique</p></div>
+    <!--<div class="suggest"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna lacus, cursus vel purus eu, lacinia iaculis enim. Phasellus porta libero quis tortor venenatis, nec viverra dui venenatis. Nam augue dui, posuere ut dolor ac, venenatis finibus est. Vivamus tristique</p></div>-->
 
   </div>
   <div id="page-3">

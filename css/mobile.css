@@ -56,6 +56,7 @@ h3 {
     height: 4.8em;
     top:0;
     width: 100%;
+    z-index: 100;
 }
 
 #main {
@@ -253,6 +254,7 @@ height: 12em;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545454', endColorstr='#424242',GradientType=1 ); /* IE6-9 */
 
     color: #fff;
+    z-index: 200;
 }
 
 .sidebar ul {
@@ -373,10 +375,10 @@ height: 12em;
 }
 
 #page-2, #page-3, #page-4 {
-    -webkit-transform: translate(100%,0); /* iOS makes a mess with the zoom when translated to the right, even if overflow hidden is used on the parent */
-    -o-transform: translate(100%,0);
-    -moz-transform: translate(100%,0);
-    transform: translate(100%,0);
+    -webkit-transform: translate(-100%,0); /* iOS makes a mess with the zoom when translated to the right, even if overflow hidden is used on the parent */
+    -o-transform: translate(-100%,0);
+    -moz-transform: translate(-100%,0);
+    transform: translate(-100%,0);
 }
 
 .iOS #page-2, .iOS #page-3, .iOS #page-4 {
@@ -483,7 +485,15 @@ font-size:1.5em;
     font-size: 1.5em;
     margin: -0.1em 0 0 0;
     padding: 0 1em 0.1em 2em;
+
+    z-index: 100;
 }
+/*
+position: fixed;
+    height: 4.8em;
+    top:0;
+    width: 100%;
+    */
 
 .cell-h-a,
 .cell-h-b {

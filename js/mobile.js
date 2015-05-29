@@ -194,7 +194,9 @@ Event.observe(window, 'load', function() {
         var hasSound = Android.getSetting('sound')=="1";
         var hasVibrate = Android.getSetting('vibrate')=="1";
         var hasNotifications = Android.getSetting('notifications')=="1";
-        $('notifications').checked = hasNotifications ? 'checked' : '';
+        if ($('notifications')) {
+            $('notifications').checked = hasNotifications ? 'checked' : '';
+        }
         $('notifications-vibrate').checked = hasVibrate ? 'checked' : '';
         $('notifications-sound').checked = hasSound ? 'checked' : '';
         $('notifications-vibrate').disabled = hasNotifications ? '' : 'disabled';
@@ -314,6 +316,7 @@ function loadDataset()
             renderDataset();
         }
     });
+    console.log('loadDataset');
 
     setTimeout(function() {
         loadDataset();
