@@ -170,10 +170,10 @@
   </div>
     <?php
 
-   if(isset($_SESSION['isIos'])){
+   if(isset($_SESSION['isIos']) && $_SESSION['isIos']){
      require(dirname(__FILE__).'/_settingsIos.php');
    }
-   if(isset($_SESSION['isAndroid'])){
+   if(isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']){
      require(dirname(__FILE__).'/_settingsAndroid.php');
    }
 ?>

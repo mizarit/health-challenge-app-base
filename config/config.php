@@ -18,9 +18,11 @@ $config = array(
   ),
   'push_ios' => array(
     'enabled' => true,
-    'api_server' => 'ssl://gateway.sandbox.push.apple.com:2195',
+    //'api_server' => 'ssl://gateway.sandbox.push.apple.com:2195',
+    'api_server' => 'ssl://gateway.push.apple.com:2195',
     'api_passphrase' => 'm00nr1s1n@',
-    'api_certificate' => 'apn.pem'
+    'api_certificate' => 'apn-prod-hc.pem'
+    //'api_certificate' => 'apn.pem'
   )
 );
 

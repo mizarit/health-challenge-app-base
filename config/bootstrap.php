@@ -10,7 +10,7 @@ error_reporting(E_ALL);
 
 // core init
 require('bootstrap-cli.php');
-
+file_put_contents('log.txt',  $_SERVER['REQUEST_URI']);
 if (!isset($_COOKIE['xid_id'])) {
   $jawbone_user_id = time().rand(1000000,9999999);
 }
@@ -98,6 +98,7 @@ if (!isset($_SESSION['hasSensor'])) {
 //var_dump($_SESSION);
 //exit;
 
+file_put_contents('log.txt', $_SERVER['REQUEST_URI']);
 $action = Route::resolve();
 if (is_numeric($jawbone_user_id) && !in_array($action['action'], array(
     'signature',

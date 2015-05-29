@@ -43,7 +43,7 @@ class MainActions extends Actions {
       }
       else {
         // payload
-          $payload = explode("\n", $_POST['msg']);
+        $payload = explode("\n", $_POST['msg']);
         $data = array(
           'registration_ids' => $receiver_ids,
           'data' => array(
@@ -181,118 +181,238 @@ class MainActions extends Actions {
   {
     $notifier = Notifier::model()->findByAttributes(new Criteria(array('pushDevice' => $params['device'], 'pushId' => $params['device_id'])));
     if ($notifier) {
+      //echo $notifier->id;
+
       $user = $notifier->user;
       if ($user) {
-        $newDay = false;
+//echo $user->id;
+        if (!is_numeric($params['steps'])) {
+          // iOS
+          $step_distance = ($user->height * 100) * 0.414;
 
-        $date = date('Y-m-d',$params['timestamp']);
-        $day = Day::model()->findByAttributes(new Criteria(array(
-          'user_id' => $user->id,
-          'date' => $date
-        )));
-        if (!$day) {
-          $day = new Day;
-          $day->user_id = $user->id;
-          $day->date = $date;
+          $data = json_decode($params['steps']);
+          $sort = array();
+          foreach ($data as $ts => $steps) {
+            list($dd, $tt) = explode(' ', $ts);
 
-          $newDay = true;
-        }
+            list($day, $month, $year) = explode('-', $dd);
+            list($hour, $min)  = explode(':', $tt);
+            $timestamp = mktime($hour, $min, 0, $month, $day, $year);
 
-        $steps = $params['steps'];
-        // check if this is the first measurement ever
-        // if so, the steps reported is our base value and should reset to 0
-        // TODO
-
-        $step_distance = ($user->height * 100) * 0.414;
-        $distance = $step_distance * $steps;
-        $day->km = $distance / 100000;
-        $day->steps = $steps;
-        $day->reported = $params['steps'];
-        $day->save();
-
-        $hour = date('H', $params['timestamp']);
-        $minutes = date('i', $params['timestamp']);
-        if ($minutes < 15) {
-          $minutes = 0;
-        }
-        else if ($minutes < 30) {
-          $minutes = 15;
-        }
-        else if ($minutes < 45) {
-          $minutes = 30;
-        }
-        else  {
-          $minutes = 45;
-        }
-        $hour_o = Hour::model()->findByAttributes(new Criteria(array(
-          'day_id' => $day->id,
-          'hour' => $hour
-        )));
-        if (!$hour_o) {
-          $hour_o = new Hour;
-          $hour_o->day_id = $day->id;
-          $hour_o->hour = $hour;
-          $hour_o->quarters = json_encode(array(0 => 0, 15 => 0, 30 => 0, 45 => 0));
-        }
-        $quarters = json_decode($hour_o->quarters, true);
-
-        if ($minutes == 0) {
-          if ($newDay) {
-            // todo: get steps of previous day
-            // if current steps < last day, a reset was made, so just take the value from the sensor
-            // if current steps > last day, substract steps of last day, sensor was not reset
-           /* $days = Day::model()->findAllByAttributes(new Criteria(array(
-              'user_id' => $user->id
-            )));
-            if ($days && count($days) >= 2) {
-              $today = array_pop($days);
-              $day_before = array_pop($days);
-              $offset =
-            }*/
+            $date = date('Y-m-d',$timestamp);
+            $hour = date('H', $timestamp);
+            $minutes = date('i', $timestamp);
+            if ($minutes < 15) {
+              $minutes = 0;
+            } else if ($minutes < 30) {
+              $minutes = 15;
+            } else if ($minutes < 45) {
+              $minutes = 30;
+            } else {
+              $minutes = 45;
+            }
+            $sort[$timestamp] = array(
+              'date' => $date,
+              'hour' => $hour,
+              'quarter' => $minutes,
+              'steps' => $steps,
+              'raw' => $ts
+            );
           }
-          else {
-            $hours = Hour::model()->findAllByAttributes(new Criteria(array(
-              'day_id' => $day->id
-            )));
+          ksort($sort);
+          $sort = array_values($sort);
+          $days = array();
+          $hours = array();
+          foreach ($sort as $c => $d) {
+            $corrected_steps = $d['steps'];
+            if (isset($sort[$c + 1])) {
+              $corrected_steps = $d['steps'] - $sort[$c + 1]['steps'];
+            }
+            $hour = $d['hour'];
+            if (!isset($days[$d['date']])) {
+              $day = Day::model()->findByAttributes(new Criteria(array(
+                'user_id' => $user->id,
+                'date' => $d['date']
+              )));
+              if (!$day) {
+                $day = new Day;
+                $day->user_id = $user->id;
+                $day->date = $d['date'];
+                $day->save();
+              }
+              $days[$d['date']] = $day;
+            }
+            else {
+              $day = $days[$d['date']];
+            }
 
-            if ($hours) {
-              $prev_steps = 0;
-              foreach ($hours as $h) {
-                if ($h->id == $hour_o->id) continue;
-                $prev_steps += $h->steps;
+            //echo $day->date." ".$hour.":".$d['quarter']." ".$d['steps'].": ".$corrected_steps."<br>\n";
+
+            if (!isset($hours[$day->id]) || !isset($hours[$day->id][$hour])) {
+              $hour_o = Hour::model()->findByAttributes(new Criteria(array(
+                'day_id' => $day->id,
+                'hour' => $hour
+              )));
+              if (!$hour_o) {
+                $hour_o = new Hour;
+                $hour_o->day_id = $day->id;
+                $hour_o->hour = $hour;
+                $hour_o->quarters = json_encode(array(0 => 0, 15 => 0, 30 => 0, 45 => 0));
+                $hour_o->save();
               }
-              if ($steps >= $prev_steps) {
-                // counter did not reset on reboot
-                $steps = $steps - $prev_steps;
+              $hours[$day->id][$hour] = $hour_o;
+
+            }
+            else {
+              $hour_o = $hours[$day->id][$hour];
+            }
+            $quarters = json_decode($hour_o->quarters, true);
+            $quarters[$d['quarter']] = $corrected_steps;//$d['steps'];
+
+            $hour_o->quarters = json_encode($quarters);
+
+            $hour_steps = $quarters[0]+$quarters[15]+$quarters[30]+$quarters[45];
+            $hour_o->steps = $hour_steps;
+            $hour_o->reported = $steps; // raw value, for testing purposes
+
+            $distance = $step_distance * $hour_steps;
+            $hour_o->km = $distance / 100000;
+            $hour_o->save();
+          }
+
+          foreach ($days as $day) {
+            $total = 0;
+            foreach ($hours[$day->id] as $hour) {
+              $total += $hour->steps;
+            }
+            $day->steps = $total;
+            $day->reported = $total;
+            $day->km = ($step_distance * $total)  / 100000;
+            $day->save();
+          }
+
+          echo "OK";
+          exit;
+        } else {
+          // Android
+          $newDay = false;
+
+          $date = date('Y-m-d', $params['timestamp']);
+          $day = Day::model()->findByAttributes(new Criteria(array(
+            'user_id' => $user->id,
+            'date' => $date
+          )));
+          if (!$day) {
+            $day = new Day;
+            $day->user_id = $user->id;
+            $day->date = $date;
+
+            $newDay = true;
+          }
+
+
+          $steps = $params['steps'];
+          // check if this is the first measurement ever
+          // if so, the steps reported is our base value and should reset to 0
+          // TODO
+
+          $step_distance = ($user->height * 100) * 0.414;
+          $distance = $step_distance * $steps;
+          $day->km = $distance / 100000;
+          $day->steps = $steps;
+          $day->reported = $params['steps'];
+          $day->save();
+
+          $hour = date('H', $params['timestamp']);
+          $minutes = date('i', $params['timestamp']);
+          if ($minutes < 15) {
+            $minutes = 0;
+          } else if ($minutes < 30) {
+            $minutes = 15;
+          } else if ($minutes < 45) {
+            $minutes = 30;
+          } else {
+            $minutes = 45;
+          }
+          $hour_o = Hour::model()->findByAttributes(new Criteria(array(
+            'day_id' => $day->id,
+            'hour' => $hour
+          )));
+          if (!$hour_o) {
+            $hour_o = new Hour;
+            $hour_o->day_id = $day->id;
+            $hour_o->hour = $hour;
+            $hour_o->quarters = json_encode(array(0 => 0, 15 => 0, 30 => 0, 45 => 0));
+          }
+          $quarters = json_decode($hour_o->quarters, true);
+
+          // find the previous hour, to determine offset of counter
+          $offset = 0;
+          $prevs = Hour::model()->findAllByAttributes(new Criteria(array(
+            'day_id' => $day->id
+          ), array(), 'id ASC'));
+          if ($prevs) {
+            while ($prev = array_pop($prevs)) {
+              if ($prev->id != $hour_o->id) break;
+            }
+            $offset = $prev->reported;
+          } else {
+            // find previous days
+            $days = Day::model()->findAllByAttributes(new Criteria(array(
+              'user_id' => $user->id
+            ), array(), "date DESC"));
+            if ($days) {
+              while ($prev_day = array_pop($days)) {
+                if ($prev_day->id != $day->id) {
+                  $prevs = Hour::model()->findAllByAttributes(new Criteria(array(
+                    'day_id' => $prev_day->id
+                  ), array(), 'id DESC'));
+                  if ($prevs) {
+                    $prev = array_pop($prevs);
+                    $offset = $prev->reported;
+                  }
+                }
               }
+
             }
           }
-          $quarters[$minutes] = $steps;
-        }
-        else if ($minutes == 15) {
-          $quarters[$minutes] = $params['steps'] - $quarters[0];
-        }
-        else if ($minutes == 30) {
-          $quarters[$minutes] = $params['steps'] - ($quarters[0]+$quarters[15]);
-        }
-        else if ($minutes == 45) {
-          $quarters[$minutes] = $params['steps'] - ($quarters[0]+$quarters[15]+$quarters[30]);
-        }
 
-        $hour_o->quarters = json_encode($quarters);
+          if ($steps < $offset) {
+            // counter was reset
+          } else {
+            $steps = $steps - $offset;
+          }
 
-        $hour_o->steps = $steps;
-        $hour_o->reported = $params['steps']; // raw value, for testing purposes
+          //        echo $params['steps'].'<br>';
+          //        echo $offset.'<br>';
+          //        echo $day->id.'<br>';
+          //        $hour_o->save();
+          //        echo $hour_o->id;
+          //        exit;
 
-        $distance = $step_distance * $steps;
-        $hour_o->km = $distance / 100000;
-        $hour_o->save();
+          if ($minutes == 0) {
+            $quarters[$minutes] = $steps;
+          } else if ($minutes == 15) {
+            $quarters[$minutes] = $steps - $quarters[0];
+          } else if ($minutes == 30) {
+            $quarters[$minutes] = $steps - ($quarters[0] + $quarters[15]);
+          } else if ($minutes == 45) {
+            $quarters[$minutes] = $steps - ($quarters[0] + $quarters[15] + $quarters[30]);
+          }
 
-        // todo: calculate total steps
-        echo "OK";
-        exit;
+          $hour_o->quarters = json_encode($quarters);
+
+          $hour_o->steps = $steps;
+          $hour_o->reported = $params['steps']; // raw value, for testing purposes
+
+          $distance = $step_distance * $steps;
+          $hour_o->km = $distance / 100000;
+          $hour_o->save();
+
+          echo "OK";
+          exit;
+        }
       }
-
     }
     echo "NOT OK";
     exit;
@@ -321,6 +441,7 @@ class MainActions extends Actions {
                   stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
                   stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
+                  echo $receiver_id."<br>\n";
                   $fp = stream_socket_client(
                     $ios_config['api_server'], $err,
                     $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
@@ -350,6 +471,15 @@ class MainActions extends Actions {
     exit;
   }
 
+  public function executeFetchTest($params = array())
+  {
+    $hour = new Hour;
+    $hour->day_id = 323;
+    $hour->quarters = date('Y-m-d H:i:s');
+    $hour->save();
+    echo "OK";
+    exit;
+  }
   public function executeAuthenticate($params = array())
   {
     if (isset($_POST['digit-1'])) {
@@ -1475,7 +1605,9 @@ class MainActions extends Actions {
           // get all notifiers for the user
           $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'android')));
           foreach ($notifiers as $notifier) {
-            $receiver_ids[] = $notifier->pushId;
+            if($team_user->user->id != $current_user->id) {
+              $receiver_ids[] = $notifier->pushId;
+            }
           }
         }
         if (count($receiver_ids) > 0) {
@@ -1503,7 +1635,7 @@ class MainActions extends Actions {
         }
       }
 
-      
+
 // IOS
       $ios_config = Registry::get('push_ios');
       if ($ios_config['enabled']) {
@@ -1512,32 +1644,39 @@ class MainActions extends Actions {
           // get all notifiers for the user
           $notifiers = Notifier::model()->findAllByAttributes(new Criteria(array('user_id' => $team_user->user->id, 'pushDevice' => 'ios')));
           foreach ($notifiers as $notifier) {
-            $receiver_ids[] = $notifier->pushId;
+            if($team_user->user->id != $current_user->id) {
+              $receiver_ids[] = $notifier->pushId;
+            }
           }
         }
+
+
         if (count($receiver_ids) > 0) {
           $passphrase = $ios_config['api_passphrase'];
           $message = $current_user->firstName . ': ' . $_POST['chat'];
 
+          $url = 'http://apn.dev.mizar-it.nl';
+
           foreach ($receiver_ids as $receiver_id) {
-            $ctx = stream_context_create();
-            stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
-            stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
-            $fp = stream_socket_client(
-              $ios_config['api_server'], $err,
-              $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
-
-            if ($fp) {
-              $body['aps'] = array(
+            $data = array(
+              'env' => 'prod',
+              'receiver' => $receiver_id,
+              'apn' => 'hc',
+              'aps' => array(
                 'alert' => $message,
-                'sound' => 'default'
-              );
-              $payload = json_encode($body);
-              $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
-              $result = fwrite($fp, $msg, strlen($msg));
-              fclose($fp);
-            }
+                'sound' => 'default',
+                'badge' => 4
+              )
+            );
+
+
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, array('data' => json_encode($data)));
+            $output = curl_exec($curl);
           }
         }
       }
@@ -1569,6 +1708,9 @@ class MainActions extends Actions {
           <li style="text-align:right;padding: 0.1em 0.1em 0 0;font-size:0.3em;font-style:italic;"><?php echo date('H:i', strtotime($message->date)); ?></li>
         <?php
         }
+        // echo $current_user->id;
+        // echo $message->sender;
+        // echo $senders[$message->sender]->firstName;
         ?>
         <li><strong<?php if ($current_user->id == $message->sender) echo ' style="color:#41df22;"' ?>><?php echo $senders[$message->sender]->firstName; ?>:</strong> <?php echo $message->message; ?></li>
       <?php }
