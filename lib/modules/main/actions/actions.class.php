@@ -355,7 +355,7 @@ class MainActions extends Actions {
             while ($prev = array_pop($prevs)) {
               if ($prev->id != $hour_o->id) break;
             }
-            $offset = $prev->reported;
+            $offset = isset($prev) ? $prev->reported : 0;
           } else {
             // find previous days
             $days = Day::model()->findAllByAttributes(new Criteria(array(
@@ -485,6 +485,16 @@ class MainActions extends Actions {
   {
     $jawbone_user_id = Registry::get('jawbone_user_id');
     $current_user = User::model()->findByAttributes(new Criteria(array('xid' => $jawbone_user_id)));
+
+    if (isset($_POST['imagefile'])) {
+      if (!is_dir(getcwd().'/img/user/'.$current_user->id)) {
+        mkdir(getcwd().'/img/user/'.$current_user->id, 0777);
+      }
+      $image = base64_decode($_POST['imagefile']);
+      $image2 = imagecreatefromstring($image);
+      imagepng($image2, getcwd().'/img/user/'.$current_user->id.'/image.png');
+      $current_user->image = 'img/user/'.$current_user->id.'/image.png';
+    }
     $current_user->firstName = $_POST['name'];
     $current_user->height = $_POST['height'] / 100;
     $current_user->save();

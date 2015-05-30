@@ -466,6 +466,8 @@ function renderDataset()
     Event.observe(d, 'click', function() {
         goPage(2);
     });
+
+    recalcHeight();
 }
 function goPage(page_id, team_id)
 {
@@ -501,16 +503,18 @@ function goPage(page_id, team_id)
         }
     }
 
-    $('container').scrollTo();
-
+    var oldActive = 1;
+    var newActive = page_id;
     for(i=1;i<5;i++) {
-        if (page_id == i) {
-            $('page-'+i).addClassName('active');
-        }
-        else {
-            $('page-'+i).removeClassName('active');
+        if ($('page-'+i).hasClassName('active')) {
+            oldActive = i;
         }
     }
+
+    $('page-'+page_id).addClassName('active');
+    $('page-'+oldActive).removeClassName('active');
+
+    recalcHeight();
 
     if (page_id==1) {
         $('back-button').hide();
@@ -528,8 +532,25 @@ function goPage(page_id, team_id)
         //$('subteaser1').hide();
         //$('subteaser2').hide();
     }
+    if (page_id==4) {
+        $('save-btn').style.display = 'block';
+    }
+    else {
+        $('save-btn').style.display = 'none';
+    }
+
+    $('container').scrollTo();
 }
 
+function recalcHeight()
+{
+    h = 500;
+    if ($('page-1').getHeight() > h) h = $('page-1').getHeight();
+    if ($('page-2').getHeight() > h) h = $('page-2').getHeight();
+    if ($('page-3').getHeight() > h) h = $('page-3').getHeight();
+    if ($('page-4').getHeight() > h) h = $('page-4').getHeight();
+    $('page-container').style.height = h+'px';
+}
 
 
 

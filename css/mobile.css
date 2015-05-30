@@ -76,7 +76,9 @@ h3 {
 #authentication p {
     text-align: justify;
 }
-button.blue-btn {
+
+button.blue-btn,
+button.orange-btn {
     font-size: 2em !important;
     padding: 0 !important;
     text-transform: uppercase;
@@ -92,7 +94,17 @@ button.blue-btn {
     border: none;
 }
 
-button.blue-btn span {
+button.orange-btn {
+    background: #f07322 !important;
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    left: 0;
+    display: none;
+}
+
+button.blue-btn span,
+button.orange-btn span {
     display: block;
     background: url(/img/button-arrow.png?t=1) no-repeat;
     background-size: auto 100% !important;
@@ -104,7 +116,8 @@ button.blue-btn span {
 
 }
 
-button.blue-btn.disabled {
+button.blue-btn.disabled,
+button.orange-btn.disabled {
     opacity: 0.7;
     -moz-opacity: 0.7;
 }
@@ -364,7 +377,8 @@ height: 12em;
 #page-1, #page-2, #page-3, #page-4 {
   position: absolute;
   width:100%;
-  transition: all 0.7s;
+    transition: transform 0.7s;
+
 }
 
 #page-1 {
@@ -375,17 +389,10 @@ height: 12em;
 }
 
 #page-2, #page-3, #page-4 {
-    -webkit-transform: translate(-100%,0); /* iOS makes a mess with the zoom when translated to the right, even if overflow hidden is used on the parent */
-    -o-transform: translate(-100%,0);
-    -moz-transform: translate(-100%,0);
-    transform: translate(-100%,0);
-}
-
-.iOS #page-2, .iOS #page-3, .iOS #page-4 {
-    -webkit-transform: translate(-100%,0);
-    -o-transform: translate(-100%,0);
-    -moz-transform: translate(-100%,0);
-    transform: translate(-100%,0);
+    -webkit-transform: translate(100%,0);
+    -o-transform: translate(100%,0);
+    -moz-transform: translate(100%,0);
+    transform: translate(100%,0);
 }
 
 #page-1.active, #page-2.active, #page-3.active, #page-4.active {
@@ -395,6 +402,11 @@ height: 12em;
   -moz-transform: translate(0,0);
 }
 
+#page-container {
+    position:relative;
+    width: 100%;
+    overflow:hidden;
+}
 
 #entrycode {
   margin: 0 auto;
@@ -1016,7 +1028,7 @@ input[type=checkbox] {
     width: 1em;
     height: 1em;
     vertical-align:middle;
-    background-color: #0088cc;
+    background-color: #00b5e8;
     color: #f3f3f3;
     text-align: center;
     box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
@@ -1059,7 +1071,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 6em;
     width: 6em;
     border-radius: 50%;
-    background: goldenrod;
+    background: #f07322;
     margin-top: -2em;
 }
 
@@ -1166,4 +1178,13 @@ input[type=range]:focus::-webkit-slider-runnable-track {
     background: -ms-linear-gradient(top,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
     background: linear-gradient(to bottom,  rgba(0,181,232,1) 0%,rgba(0,181,232,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b5e8', endColorstr='#00b5e8',GradientType=0 );
+}
+
+
+#user-image {
+    width: 12em;
+    border: #cecece 2px solid;
+    padding: 0.1em;
+    margin: 0 auto;
+
 }

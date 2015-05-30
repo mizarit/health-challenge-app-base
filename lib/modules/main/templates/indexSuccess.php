@@ -45,6 +45,7 @@
       <?php echo $challenge->title; ?></h2>
     </div>
   <h4 class="subteaser"  id="subteaser1"><?php echo $challenge->teaser3; ?></h4>
+  <div id="page-container">
   <div id="page-1" class="active">
 
     <div class="race-track" id="race-track-1">
@@ -185,6 +186,7 @@
      require(dirname(__FILE__).'/_settingsAndroid.php');
    }
 ?>
-
+      <div style="clear:both;">
+  </div>
 </div>
 </div>
