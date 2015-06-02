@@ -28,18 +28,6 @@
         $('height-value').innerHTML = formatHeight(this.value / 100)+'m';
       });
     </script>
-
-  <h2 style="text-align:left;margin-top:1em;">Notificaties</h2>
-  <input id="notifications" type="checkbox" onchange="Android.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';">
-  <label class="checkbox" for="notifications" style="margin-bottom:0.4em;"> Notificaties ontvangen</label><br>
-
-  <div style="padding-left:2em;">
-    <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="Android.setSetting('vibrate', this.checked ? '1' : '0');">
-    <label class="checkbox" for="notifications-vibrate" style="margin-bottom:0.4em;"> Trillen toestaan</label><br>
-
-    <input id="notifications-sound" type="checkbox" checked="checked" onchange="Android.setSetting('sound', this.checked ? '1' : '0');">
-    <label class="checkbox" for="notifications-sound" style="margin-bottom:0.4em;"> Geluid toestaan</label>
-  </div>
   </div>
 </div>
 <button type="button" id="save-btn" class="orange-btn">Opslaan</button>
@@ -73,8 +61,8 @@ Event.observe(window, 'load', function() {
           imagefile: $('imagefile').value
         },
         onSuccess: function(transport) {
-          console.log(transport.responseText);
           Android.showToast('Instellingen zijn opgeslagen.');
+          $('user-name').innerHTML = $('name').value;
         }
       });
       goPage(1);
@@ -89,5 +77,4 @@ function imageSelected(image)
   var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
   $('page-4').insert(img);
 }
-
 </script>

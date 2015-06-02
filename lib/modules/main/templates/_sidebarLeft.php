@@ -9,9 +9,11 @@ if ($count > 0) {
   </div>
 <?php } ?>
 <div id="sidebar-left" class="sidebar">
-  <div id="sidebar-left-inner" class="sidebar-inner" style="overflow:scroll;">
-    <ul>
-      <li><i class="fa fa-user"></i> <?php echo $user->firstName; ?> <?php echo $user->lastName; ?>
+  <div id="sidebar-left-inner" class="sidebar-inner" style="overflow:scroll;width:100%;">
+    <h3><i class="fa fa-arrow-left" id="nav-back" onclick="closeSubmenu();"></i>Menu<i class="fa fa-close" id="nav-close" onclick="closeSubmenu();toggleSidebar('sidebar-left');"></i></h3>
+    <div id="mainnav" class="active">
+    <ul style="margin-top:0.5em;">
+      <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span>
         <?php if ($iOS) { ?>
           <i class="fa fa-remove" style="position: absolute;right:0;" onclick="toggleSidebar('sidebar-left');"></i>
         <?php } ?>
@@ -19,43 +21,85 @@ if ($count > 0) {
       </li>
       <li><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
     </ul>
-    <?php if($user->device=='android'){ ?>
+    <?php if($user->device=='android' || $user->device=='ios'){ ?>
       <ul>
-        <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
+        <li onclick="toggleSidebar('sidebar-left');goPage(4);"><i class="fa fa-camera"></i> Mijn profiel</li>
+        <li class="subnav" onclick="openSubmenu();"><i class="fa fa-cogs"></i> Instellingen<span><i class="fa fa-chevron-right"></i></span></li>
       </ul>
-    <?php } ?>
-    <?php if($user->device=='ios'){ ?>
+      <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35,37))) { ?>
       <ul>
-        <li onclick="goPage(4);toggleSidebar('sidebar-left');"><i class="fa fa-cogs"></i> Instellingen</li>
+        <li onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';"><i class="fa fa-bug"></i> Debugger</li>
+        <li onclick="window.location.href=window.location.href;"><i class="fa fa-refresh"></i> Refresh</li>
       </ul>
+      <?php } ?>
     <?php } ?>
-    <ul>
-      <li>
-        <div style="position: relative;width:95%;" id="chat-input">
-          <form action="#" method="post" onsubmit="sendChat();return false;">
-            <input id="chat-text" autocomplete="off" type="text" style="margin:0.1em 0 0 0;width:99%;font-size:1.2em;padding:0.1em 0.2em;border-radius:0.3em;">
-            <i id="chat-enter" style="position:absolute;width:auto;right:-0.1em;left:auto;float:none;display:inline;top:0.15em;font-size: 1.6em;color:#aaa;" class="fa fa-caret-square-o-down"></i>
-            <button type="submit" style="display:none;"></button>
-          </form>
-        </div>
-      </li>
-      <li style="height: auto;">
-        <div id="chat-stream">
-          <ul>
-          </ul>
-        </div>
-      </li>
-    </ul>
-    <!--<ul>
-      <li><i class="fa fa-flag"></i> Doelen</li>
-      <li><i class="fa fa-fire"></i> Energie</li>
-      <li><i class="fa fa-line-chart"></i> Trends</li>
-    </ul>
-    <ul>
-      <li><i class="fa fa-cogs"></i> Instellingen</li>
-      <li><i class="fa fa-facebook-official"></i> Facebook</li>
-      <li><i class="fa fa-twitter"></i> Twitter</li>
-      <li><i class="fa fa-question"></i> Hulp</li>
-    </ul>-->
+    </div>
+    <div id="subnav">
+      <h4>Instellingen</h4>
+
+      <h5>Notificaties</h5>
+      <?php if(isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']){ ?>
+      <ul>
+        <li>
+          <label for="notifications">Notificaties ontvangen</label>
+          <input id="notifications" type="checkbox" checked="checked" onchange="Android.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span class="checkbox"></span>
+        </li>
+        <li>
+          <label for="notifications-sound">Geluid toestaan</label>
+          <input id="notifications-sound" type="checkbox" checked="checked" onchange="Android.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox"></span>
+        </li>
+        <li>
+          <label for="notifications-vibrate">Trillen toestaan</label>
+          <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="Android.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox"></span>
+        </li>
+      </ul>
+      <?php } ?>
+      <?php  if(isset($_SESSION['isIos']) && $_SESSION['isIos']){ ?>
+        <ul>
+          <li>
+            <label for="notifications">Notificaties ontvangen</label>
+            <input id="notifications" type="checkbox" checked="checked" onchange="iOS.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span class="checkbox"></span>
+          </li>
+          <li>
+            <label for="notifications-sound">Geluid toestaan</label>
+            <input id="notifications-sound" type="checkbox" checked="checked" onchange="iOS.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox"></span>
+          </li>
+          <li>
+            <label for="notifications-vibrate">Trillen toestaan</label>
+            <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="iOS.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox"></span>
+          </li>
+        </ul>
+        <!--
+          <h2>Notificaties</h2>
+  <input id="notifications" type="checkbox" onchange="iOS.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';">
+  <label class="checkbox" for="notifications" style="margin-bottom:0.4em;"> Notificaties ontvangen</label><br>
+
+  <div style="padding-left:2em;">
+    <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="iOS.setSetting('vibrate', this.checked ? '1' : '0');">
+    <label class="checkbox" for="notifications-vibrate" style="margin-bottom:0.4em;"> Trillen toestaan</label><br>
+
+    <input id="notifications-sound" type="checkbox" checked="checked" onchange="iOS.setSetting('sound', this.checked ? '1' : '0');">
+    <label class="checkbox" for="notifications-sound" style="margin-bottom:0.4em;"> Geluid toestaan</label>
+  </div>
+  -->
+      <?php } ?>
+    </div>
   </div>
 </div>
+<script type="text/javascript">
+  function openSubmenu()
+  {
+    $('subnav').addClassName('available');
+    $('mainnav').removeClassName('active');
+    $('subnav').addClassName('active');
+    $('nav-back').style.visibility = 'visible';
+  }
+
+  function closeSubmenu()
+  {
+    $('subnav').removeClassName('available');
+    $('mainnav').addClassName('active');
+    $('subnav').removeClassName('active');
+    $('nav-back').style.visibility = 'hidden';
+  }
+</script>

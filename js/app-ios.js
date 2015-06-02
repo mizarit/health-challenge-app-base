@@ -85,7 +85,13 @@ window.iOSWrapper = Class.create({
   showToast: function(toast)
   {
     sendToApp("toast", toast);
-  }
+  },
+
+    attachFileInput: function(elem)
+    {
+        sendToApp("attachFileInput");
+        //alert('No native image browser hook found.');
+    }
 });
 
 var iOS = new iOSWrapper;

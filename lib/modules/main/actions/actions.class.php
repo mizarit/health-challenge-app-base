@@ -1698,7 +1698,7 @@ class MainActions extends Actions {
               'aps' => array(
                 'alert' => $message,
                 'sound' => 'default',
-                'badge' => 4
+                'badge' => 0
               )
             );
 

@@ -136,10 +136,16 @@ function toggleSidebar(which)
     }
     if ($(which).hasClassName('active')) {
         $(which).removeClassName('active');
+        if (isAndroid) {
+            Android.setPhysicalBackCallback("");
+        }
     }
     else {
         $(which+'-inner').scrollTop = 0;
         $(which).addClassName('active');
+        if (isAndroid) {
+            Android.setPhysicalBackCallback("toggleSidebar('"+which+"');");
+        }
     }
 
     if (which =='sidebar-left') {
@@ -162,44 +168,97 @@ function redirect(uri) {
 }
 
 Event.observe(window, 'load', function() {
+    var swipeMain = $('body');
+    var swipeMainObj = new Swipeable(swipeMain);
 
-    if (!iOS) {
-        var swipeMain = $('body');
-        var swipeMainObj = new Swipeable(swipeMain);
+    var w = $('body').getWidth();
 
-        var w = $('body').getWidth();
+    var allowLeft = true;
+    var allowRight = true;
 
-        // menu left
-        swipeMain.observe("swipe:right", function () {
-            p = swipeMainObj.lastStartX / (w / 100);
+    swipeMain.observe("swipe:right", function () {
+        p = swipeMainObj.lastStartX / (w / 100);
 
-            if (p < 20) {
-                if ($('sidebar-right').hasClassName('active')) {
+        if (p < 20) {
+            if ($('sidebar-right').hasClassName('active')) {
+                // collapse right
+                allowLeft = false;
+                toggleSidebar('sidebar-right');
+            }
+            else if (!$('sidebar-left').hasClassName('active')) {
+                // expand left
+                if (allowLeft) {
+                    toggleSidebar('sidebar-left');
+                }
+                allowLeft = true;
+            }
+        }
+    });
+
+    swipeMain.observe("swipe:left", function () {
+        p = swipeMainObj.lastStartX / (w / 100);
+
+        if (p > 80) {
+            if ($('sidebar-left').hasClassName('active')) {
+                // collapse left
+                allowRight = false;
+                toggleSidebar('sidebar-left');
+            }
+            else if (!$('sidebar-right').hasClassName('active')) {
+                // expand right
+                if (allowRight) {
                     toggleSidebar('sidebar-right');
                 }
-                else if (!$('sidebar-left').hasClassName('active')) {
-                    toggleSidebar('sidebar-left');
+                allowRight = true;
+            }
+        }
+    });
+
+
+    if ($('sidebar-left')) {
+        var swipeSidebarLeft = $('sidebar-left');
+        var swipeSidebarLeftObj = new Swipeable(swipeSidebarLeft);
+        swipeSidebarLeft.observe("swipe:left", function () {
+            p = swipeSidebarLeftObj.lastStartX / (w / 100);
+            if (p > 80) {
+                if ($('sidebar-left').hasClassName('active')) {
+                    if (!inChat && allowLeft) {
+                        // expand left
+                        allowRight = false;
+                        toggleSidebar('sidebar-left');
+                    }
+                    inChat = false;
+                }
+                else if(!$('sidebar-right').hasClassName('active')) {
+                    if(allowRight) {
+                        toggleSidebar('sidebar-right');
+                    }
                 }
             }
         });
+    }
 
-        var inChat = false;
-
-        if ($('sidebar-left')) {
-            var swipeSidebarLeft = $('sidebar-left');
-            var swipeSidebarLeftObj = new Swipeable(swipeSidebarLeft);
-            swipeSidebarLeft.observe("swipe:left", function () {
-                p = swipeSidebarLeftObj.lastStartX / (w / 100);
-                if (p > 80) {
-                    if ($('sidebar-left').hasClassName('active')) {
-                        if (!inChat) {
-                            toggleSidebar('sidebar-left');
-                        }
-                        inChat = false;
+    if ($('sidebar-right')) {
+        var swipeSidebarRight = $('sidebar-right');
+        var swipeSidebarRightObj = new Swipeable(swipeSidebarRight);
+        swipeSidebarRight.observe("swipe:right", function () {
+            p = swipeSidebarRightObj.lastStartX / (w / 100);
+            if (p < 20) {
+                if ($('sidebar-right').hasClassName('active')) {
+                    if (!inChat && allowRight) {
+                        // collapse right
+                        allowLeft = false;
+                        toggleSidebar('sidebar-right');
+                    }
+                    inChat = false;
+                }
+                else if(!$('sidebar-left').hasClassName('active')) {
+                    if(allowLeft) {
+                        toggleSidebar('sidebar-left');
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     if(isAndroid && typeof(Android) != 'undefined') {
@@ -217,46 +276,15 @@ Event.observe(window, 'load', function() {
     
     if(isIos && typeof(iOS) != 'undefined') {
         var iOS = new iOSWrapper;
-        var hasSound = iOS.getSetting('sound')=="1";
-        var hasVibrate = iOS.getSetting('vibrate')=="1";
-        var hasNotifications = iOS.getSetting('notifications')=="1";
+        var hasSound = iOS.getSetting('sound') == "1";
+        var hasVibrate = iOS.getSetting('vibrate') == "1";
+        var hasNotifications = iOS.getSetting('notifications') == "1";
         $('notifications').checked = hasNotifications ? 'checked' : '';
         $('notifications-vibrate').checked = hasVibrate ? 'checked' : '';
         $('notifications-sound').checked = hasSound ? 'checked' : '';
         $('notifications-vibrate').disabled = hasNotifications ? '' : 'disabled';
         $('notifications-sound').disabled = hasNotifications ? '' : 'disabled';
     }
-    /*
-     // menu right
-     swipeMain.observe("swipe:left",function() {
-     p = swipeMainObj.lastStartX / (w /100);
-
-     //$('swipe-value').innerHTML = p;
-
-     if (p > 80) {
-     if( $('sidebar-left').hasClassName('active')) {
-     toggleSidebar('sidebar-left');
-     }
-     else if ( !$('sidebar-right').hasClassName('active')) {
-     toggleSidebar('sidebar-right');
-     }
-     }
-     });
-
-
-     if($('sidebar-right')) {
-     var swipeSidebarRight = $('sidebar-right');
-     var swipeSidebarRightObj = new Swipeable(swipeSidebarRight);
-     swipeSidebarRight.observe("swipe:right", function () {
-     p = swipeSidebarRightObj.lastStartX / (w / 100);
-     if (p < 20) {
-     if ($('sidebar-right').hasClassName('active')) {
-     toggleSidebar('sidebar-right');
-     }
-     }
-     });
-     }
-     */
 
     Event.observe($('chat-enter'), 'click', function() {
         inChat = true;
@@ -266,8 +294,6 @@ Event.observe(window, 'load', function() {
         inChat = true;
         sendChat();
     });
-
-
 
     if($('overlay')) {
         renderDataset();
@@ -506,7 +532,7 @@ function goPage(page_id, team_id)
     var oldActive = 1;
     var newActive = page_id;
     for(i=1;i<5;i++) {
-        if ($('page-'+i).hasClassName('active')) {
+        if ($('page-'+i) && $('page-'+i).hasClassName('active')) {
             oldActive = i;
         }
     }
@@ -518,25 +544,33 @@ function goPage(page_id, team_id)
 
     if (page_id==1) {
         $('back-button').hide();
-        if (isIos) {
+        if (isIos && $('menu-button')) {
             $('menu-button').show();
         }
-        //$('subteaser1').show();
-        //$('subteaser2').show();
+        else if (isAndroid) {
+            Android.setPhysicalBackCallback("alert(1);");
+        }
+
     }
     else {
         $('back-button').show();
-        if (isIos) {
+        if (isIos && $('menu-button')) {
             $('menu-button').hide();
         }
-        //$('subteaser1').hide();
-        //$('subteaser2').hide();
+        else if (isAndroid) {
+            Android.setPhysicalBackCallback("alert(1);");
+        }
     }
-    if (page_id==4) {
-        $('save-btn').style.display = 'block';
-    }
-    else {
-        $('save-btn').style.display = 'none';
+
+    if ($('save-btn')) {
+        if (page_id==4) {
+            $('save-btn').style.display = 'block';
+            $('subteaser1').hide();
+        }
+        else {
+            $('save-btn').style.display = 'none';
+            $('subteaser1').show();
+        }
     }
 
     $('container').scrollTo();
@@ -545,10 +579,10 @@ function goPage(page_id, team_id)
 function recalcHeight()
 {
     h = 500;
-    if ($('page-1').getHeight() > h) h = $('page-1').getHeight();
-    if ($('page-2').getHeight() > h) h = $('page-2').getHeight();
-    if ($('page-3').getHeight() > h) h = $('page-3').getHeight();
-    if ($('page-4').getHeight() > h) h = $('page-4').getHeight();
+    if ($('page-1') && $('page-1').getHeight() > h) h = $('page-1').getHeight();
+    if ($('page-2') && $('page-2').getHeight() > h) h = $('page-2').getHeight();
+    if ($('page-3') && $('page-3').getHeight() > h) h = $('page-3').getHeight();
+    if ($('page-4') && $('page-4').getHeight() > h) h = $('page-4').getHeight();
     $('page-container').style.height = h+'px';
 }
 

@@ -23,23 +23,9 @@
 
       <?php if ($iOS) { ?>
         <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
-        <button class="fa fa-caret-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
-        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
-          <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
-        <?php } ?>
+        <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
       <?php } else { ?>
-        <button class="fa fa-caret-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
-        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35))) { ?>
-          <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
-        <?php } ?>
-
-        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
-          <span id="android-step-counter" style="position:absolute;left:1.1em;top:0.9em;font-size:1em;color:#fff;font-weight:bold;"></span>
-          <i id="android-step" class="fa fa-circle" style="display:none;position:absolute;left:0.1em;top:1em;font-size:1em;color:#e7028b;"></i>
-
-          <span id="ios-step-counter" style="position:absolute;left:1.1em;top:0.9em;font-size:1em;color:#fff;font-weight:bold;"></span>
-          <i id="ios-step" class="fa fa-circle" style="display:none;position:absolute;left:0.1em;top:1em;font-size:1em;color:#e7028b;"></i>
-        <?php } ?>
+        <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
       <?php } ?>
 
       <?php echo $challenge->title; ?></h2>
