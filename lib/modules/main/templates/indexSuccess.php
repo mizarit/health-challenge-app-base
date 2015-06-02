@@ -16,18 +16,14 @@
 
   <div id="header">
     <h2 style="font-weight:bold;color:#fff;margin:0.1em 0 0 0;position:relative;padding:0;text-transform: uppercase;font-size:2em;">
-      <span id="chat-count" style="display:none;position:absolute;left:0.1em;top:0;">
+      <span id="chat-count" style="display:block;z-index:10;position:absolute;right:<?php echo $iOS? '1':'1.2'; ?>em;color:#fff;top:-0.4em;font-size:0.8em;">
         <i id="chat-count-value" class="fa fa-circle" style="position:absolute;left:0;top:0;font-size:1em;color:#c00;"></i>
         <span style="position:absolute;left:0.34em;top:0.1em;font-size:0.7em;font-weight:bold;"></span>
       </span>
 
-      <?php if ($iOS) { ?>
-        <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
-        <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
-      <?php } else { ?>
-        <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(1);" style="margin:0;padding:0;display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:0.1em;font-size:1em;"></button>
-      <?php } ?>
-
+      <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
+      <button class="fa fa-comments-o delayed" id="chat-button" class="delayed" onclick="toggleSidebar('sidebar-right');" style="position:absolute;right:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
+      <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(back_id);" style="display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.1em;"></button>
       <?php echo $challenge->title; ?></h2>
     </div>
   <h4 class="subteaser"  id="subteaser1"><?php echo $challenge->teaser3; ?></h4>

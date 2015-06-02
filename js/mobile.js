@@ -125,9 +125,16 @@ function formatHeight(height)
     return height.toFixed(2);
 }
 
+var inToggleSidebar = false;
+var back_id = 1;
 
-function toggleSidebar(which)
+function toggleSidebar(which, force)
 {
+    if (inToggleSidebar && !force) return;
+
+    inToggleSidebar = true;
+    setTimeout(function() { inToggleSidebar = false; }, 700);
+
     if (which =='sidebar-left' && $('sidebar-right').hasClassName('active')) {
         $('sidebar-right').removeClassName('active');
     }
@@ -172,6 +179,17 @@ Event.observe(window, 'load', function() {
     var swipeMainObj = new Swipeable(swipeMain);
 
     var w = $('body').getWidth();
+
+    var w_chat = $('chat-enter').getWidth();
+
+    var diff = w - (w_chat + (isIos ? 48 : 55));
+    $('chat-text').style.width = diff+'px';
+
+    var c_0 = $('body').getHeight();
+    var c_1 = $('chat-form').getHeight();
+    var c_2 = $('chat-title').getHeight();
+    var c_4 = c_0 - ( c_1 + c_2);
+    $('chat-stream').style.height = c_4+'px';
 
     var allowLeft = true;
     var allowRight = true;
@@ -544,21 +562,21 @@ function goPage(page_id, team_id)
 
     if (page_id==1) {
         $('back-button').hide();
-        if (isIos && $('menu-button')) {
+        if ($('menu-button')) {
             $('menu-button').show();
         }
-        else if (isAndroid) {
-            Android.setPhysicalBackCallback("alert(1);");
+        if (isAndroid) {
+            Android.setPhysicalBackCallback("");
         }
 
     }
     else {
         $('back-button').show();
-        if (isIos && $('menu-button')) {
+        if ($('menu-button')) {
             $('menu-button').hide();
         }
-        else if (isAndroid) {
-            Android.setPhysicalBackCallback("alert(1);");
+        if (isAndroid) {
+            Android.setPhysicalBackCallback("goPage(1);");
         }
     }
 

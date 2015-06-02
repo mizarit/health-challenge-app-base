@@ -1735,19 +1735,44 @@ class MainActions extends Actions {
         if (!isset($senders[$message->sender])) {
           $senders[$message->sender] = User::model()->findByPk($message->sender);
         }
+        if (!isset($senders[$message->sender])) continue;
         if ($first) {
           $first = false; ?>
-          <li style="text-align:right;padding: 0.1em 0.1em 0 0;font-size:0.3em;font-style:italic;"><?php echo date('H:i', strtotime($message->date)); ?></li>
         <?php
         }
         // echo $current_user->id;
         // echo $message->sender;
         // echo $senders[$message->sender]->firstName;
+        /*
+         <li class="own">
+          <span>Jijzelf</span>
+          <div>Lorem ipsum</div>
+        </li>
+        <li class="other">
+          <span>Jorgen</span>
+          <div>Lorem ipsum</div>
+        </li>
+        <li class="admin">
+          <span>Beheerder</span>
+          <div>Lorem ipsum</div>
+        </li>
+         */
+        $cls = 'other';
+        $name = $senders[$message->sender]->firstName;
+        if ($current_user->id == $message->sender) {
+          $name = 'Jijzelf';
+          $cls = 'own';
+        }
+        if ($message->sender == 0) {
+          $name = 'Beheerder';
+          $cls = 'admin';
+        }
+
         ?>
-        <li><strong<?php if ($current_user->id == $message->sender) echo ' style="color:#41df22;"' ?>><?php echo $senders[$message->sender]->firstName; ?>:</strong> <?php echo $message->message; ?></li>
+        <li class="<?php echo $cls; ?>"><span><?php echo $name; ?></span><div><?php echo $message->message; ?></div></li>
       <?php }
       if(count($messages) < 50) { ?>
-        <li><strong style="color:#ccfc0c;">Beheerder:</strong> Welkom bij de team-chat!</li>
+        <li class="admin"><span>Beheerder</span><div>Welkom bij de team-chat!</div></li>
       <?php } ?>
     </ul>
     <?php

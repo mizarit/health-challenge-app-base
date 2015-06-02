@@ -13,13 +13,8 @@ if ($count > 0) {
     <h3><i class="fa fa-arrow-left" id="nav-back" onclick="closeSubmenu();"></i>Menu<i class="fa fa-close" id="nav-close" onclick="closeSubmenu();toggleSidebar('sidebar-left');"></i></h3>
     <div id="mainnav" class="active">
     <ul style="margin-top:0.5em;">
-      <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span>
-        <?php if ($iOS) { ?>
-          <i class="fa fa-remove" style="position: absolute;right:0;" onclick="toggleSidebar('sidebar-left');"></i>
-        <?php } ?>
-
-      </li>
-      <li><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
+      <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span></li>
+      <li style="background:#<?php echo $team->color; ?>;color:#fff;"><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
     </ul>
     <?php if($user->device=='android' || $user->device=='ios'){ ?>
       <ul>
@@ -93,6 +88,9 @@ if ($count > 0) {
     $('mainnav').removeClassName('active');
     $('subnav').addClassName('active');
     $('nav-back').style.visibility = 'visible';
+
+    inToggleSidebar = true;
+    setTimeout(function() { inToggleSidebar = false; }, 700);
   }
 
   function closeSubmenu()
@@ -101,5 +99,8 @@ if ($count > 0) {
     $('mainnav').addClassName('active');
     $('subnav').removeClassName('active');
     $('nav-back').style.visibility = 'hidden';
+
+    inToggleSidebar = true;
+    setTimeout(function() { inToggleSidebar = false; }, 700);
   }
 </script>
