@@ -10,7 +10,11 @@ error_reporting(E_ALL);
 
 // core init
 require('bootstrap-cli.php');
-file_put_contents('log.txt',  $_SERVER['REQUEST_URI']);
+
+$log = file_get_contents(getcwd().'/img/user/log2.txt');
+$log .= PHP_EOL.$_SERVER['REQUEST_URI'];
+file_put_contents(getcwd().'/img/user/log2.txt',  $log);
+
 if (!isset($_COOKIE['xid_id'])) {
   $jawbone_user_id = time().rand(1000000,9999999);
 }
@@ -48,26 +52,28 @@ if (isset($device_info['device'])) {
           }
         }
         $_SESSION['isAndroid'] = true;
+        $_SESSION['isIos'] = false;
         $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
         break;
-        
-        case 'ios':
-          $current_user->sensor = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
-          $current_user->device = 'ios';
-          $current_user->save();
 
-          if (isset($device_info['ios_id']) && $device_info['ios_id'] != '') {
-            $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'ios', 'pushId' => $device_info['ios_id'])));
-            if (!$notifier) {
-              $notifier = new Notifier;
-              $notifier->user_id = $current_user->id;
-              $notifier->pushDevice = 'ios';
-              $notifier->pushId = $device_info['ios_id'];
-              $notifier->save();
-            }
+      case 'ios':
+        $current_user->sensor = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
+        $current_user->device = 'ios';
+        $current_user->save();
+
+        if (isset($device_info['ios_id']) && $device_info['ios_id'] != '') {
+          $notifier = Notifier::model()->findByAttributes(new Criteria(array('user_id' => $current_user->id, 'pushDevice' => 'ios', 'pushId' => $device_info['ios_id'])));
+          if (!$notifier) {
+            $notifier = new Notifier;
+            $notifier->user_id = $current_user->id;
+            $notifier->pushDevice = 'ios';
+            $notifier->pushId = $device_info['ios_id'];
+            $notifier->save();
           }
-          $_SESSION['isIos'] = true;
-          $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
+        }
+        $_SESSION['isAndroid'] = false;
+        $_SESSION['isIos'] = true;
+        $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
         break;
     }
   }
@@ -78,16 +84,17 @@ if (isset($device_info['device'])) {
         $_SESSION['isAndroid'] = true;
         $_SESSION['isIos'] = false;
         break;
-        
-        case 'ios':
-          $_SESSION['isIos'] = true;
-          $_SESSION['isAndroid'] = false;
+
+      case 'ios':
+        $_SESSION['isIos'] = true;
+        $_SESSION['isAndroid'] = false;
         break;
     }
   }
 
   $_SESSION['hasSensor'] = ( isset($device_info['sensor']) && $device_info['sensor'] == 1);
 }
+
 
 if (!isset($_SESSION['hasSensor'])) {
   $_SESSION['hasSensor'] = false;
@@ -98,7 +105,7 @@ if (!isset($_SESSION['hasSensor'])) {
 //var_dump($_SESSION);
 //exit;
 
-file_put_contents('log.txt', $_SERVER['REQUEST_URI']);
+//file_put_contents('log.txt', $_SERVER['REQUEST_URI']);
 $action = Route::resolve();
 if (is_numeric($jawbone_user_id) && !in_array($action['action'], array(
     'signature',

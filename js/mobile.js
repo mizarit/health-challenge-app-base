@@ -1,3 +1,5 @@
+var inChat = false;
+
 function renderDate(date)
 {
     if (typeof(local_data['steps']) == 'undefined') return;
@@ -155,7 +157,7 @@ function toggleSidebar(which, force)
         }
     }
 
-    if (which =='sidebar-left') {
+    if (which =='sidebar-right') {
         refreshChat(null, true);
         $('chat-count').style.display = 'none';
     }
@@ -215,6 +217,11 @@ Event.observe(window, 'load', function() {
 
     swipeMain.observe("swipe:left", function () {
         p = swipeMainObj.lastStartX / (w / 100);
+
+        if(!swipeMainObj.curX) return; // just click
+        swipeDistance = swipeMainObj.lastStartX - swipeMainObj.curX;
+
+        if (swipeDistance < (w / 10)) return; // require 10% swipe distance
 
         if (p > 80) {
             if ($('sidebar-left').hasClassName('active')) {
@@ -291,7 +298,7 @@ Event.observe(window, 'load', function() {
         $('notifications-vibrate').disabled = hasNotifications ? '' : 'disabled';
         $('notifications-sound').disabled = hasNotifications ? '' : 'disabled';
     }
-    
+
     if(isIos && typeof(iOS) != 'undefined') {
         var iOS = new iOSWrapper;
         var hasSound = iOS.getSetting('sound') == "1";
@@ -372,7 +379,6 @@ function loadDataset()
             renderDataset();
         }
     });
-    console.log('loadDataset');
 
     setTimeout(function() {
         loadDataset();

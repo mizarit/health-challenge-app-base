@@ -14,7 +14,10 @@
     ?>
     <p style="text-align:center;">
       <input type="hidden" name="imagefile" id="imagefile">
-      <img src="<?php echo $image; ?>" id="user-image" onclick="iOS.attachFileInput(this);">
+    <div id="image-select">
+      <img src="<?php echo $image; ?>" id="user-image" onclick="iOS.attachFileInput();">
+      <img src="/img/camera-overlay.png" id="camera-overlay">
+    </div>
     </p>
     <h2 style="text-align:left;margin-top:1em;">Je persoonlijke gegevens</h2>
     <label for="name" style="font-size:1.5em;">Wat is je naam?</label><br />
@@ -32,49 +35,49 @@
 </div>
 <button type="button" id="save-btn" class="orange-btn">Opslaan</button>
 <script type="text/javascript">
-Event.observe(window, 'load', function() {
-  $('notifications').checked = (iOS.getSetting('notifications') == "1");
-  $('notifications-vibrate').checked = (iOS.getSetting('vibrate') == "1");
-  $('notifications-sound').checked = (iOS.getSetting('sound') == "1");
-  if (iOS.getSetting('notifications') == "0") {
-    $('notifications-vibrate').disabled = 'disabled';
-    $('notifications-sound').disabled = 'disabled';
-  }
-});
-$('height-value').style.color = '#000';
-Event.observe($('name'), 'keyup', function() {
-  if(this.value.length < 3) {
-    $('save-btn').addClassName('disabled');
-  }
-  else {
-    $('save-btn').removeClassName('disabled');
-  }
-});
+  Event.observe(window, 'load', function() {
+    $('notifications').checked = (iOS.getSetting('notifications') == "1");
+    $('notifications-vibrate').checked = (iOS.getSetting('vibrate') == "1");
+    $('notifications-sound').checked = (iOS.getSetting('sound') == "1");
+    if (iOS.getSetting('notifications') == "0") {
+      $('notifications-vibrate').disabled = 'disabled';
+      $('notifications-sound').disabled = 'disabled';
+    }
+  });
+  $('height-value').style.color = '#000';
+  Event.observe($('name'), 'keyup', function() {
+    if(this.value.length < 3) {
+      $('save-btn').addClassName('disabled');
+    }
+    else {
+      $('save-btn').removeClassName('disabled');
+    }
+  });
 
-Event.observe($('save-btn'), 'click', function() {
-  if(!$(this).hasClassName('disabled')) {
-    new Ajax.Request('/main/settings?ju='+jawbone_user_id, {
-      parameters: {
-        name: $('name').value,
-        height: $('height').value,
-        imagefile: $('imagefile').value
-      },
-      onSuccess: function(transport) {
-        $('user-name').innerHTML = $('name').value;
-        iOS.showToast('Instellingen zijn opgeslagen.');
-      }
-    });
-    goPage(1);
-  }
-});
+  Event.observe($('save-btn'), 'click', function() {
+    if(!$(this).hasClassName('disabled')) {
+      new Ajax.Request('/main/settings?ju='+jawbone_user_id, {
+        parameters: {
+          name: $('name').value,
+          height: $('height').value,
+          imagefile: $('imagefile').value
+        },
+        onSuccess: function(transport) {
+          $('user-name').innerHTML = $('name').value;
+          iOS.showToast('Instellingen zijn opgeslagen.');
+        }
+      });
+      goPage(1);
+    }
+  });
 
-function imageSelected(image)
-{
-  $('user-image').src = 'data:image/jpg;base64,'+image;
-  $('imagefile').value = image;
-  var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
-  $('page-4').insert(img);
-}
+  function imageSelected(image)
+  {
+    $('user-image').src = 'data:image/jpg;base64,'+image;
+    $('imagefile').value = image;
+    var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
+    $('page-4').insert(img);
+  }
 </script>
 <style type="text/css">
   input[type=range]::-webkit-slider-runnable-track {

@@ -3,9 +3,9 @@
   var current_date = '<?php echo date('Y-m-d'); ?>';
   var total_cols = <?php echo $total_cols; ?>;
   var jawbone_user_id = '<?php echo $user->xid; ?>';
- // var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
-  var isIos = <?php echo isset($_SESSION['isIos'])?'true':'false'; ?>;
-  var isAndroid = <?php echo isset($_SESSION['isAndroid'])?'true':'false'; ?>;
+  // var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+  var isIos = <?php echo isset($_SESSION['isIos']) && $_SESSION['isIos']?'true':'false'; ?>;
+  var isAndroid = <?php echo isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
 </script>
 <div id="container"<?php if($iOS) echo ' class="iOS"'; ?>">
@@ -16,159 +16,159 @@
 
   <div id="header">
     <h2 style="font-weight:bold;color:#fff;margin:0.1em 0 0 0;position:relative;padding:0;text-transform: uppercase;font-size:2em;">
-      <span id="chat-count" style="display:block;z-index:10;position:absolute;right:<?php echo $iOS? '1':'1.2'; ?>em;color:#fff;top:-0.4em;font-size:0.8em;">
-        <i id="chat-count-value" class="fa fa-circle" style="position:absolute;left:0;top:0;font-size:1em;color:#c00;"></i>
-        <span style="position:absolute;left:0.34em;top:0.1em;font-size:0.7em;font-weight:bold;"></span>
+      <span id="chat-count" style="display:none;z-index:10;position:absolute;right:<?php echo $iOS? '1':'1.2'; ?>em;color:#fff;top:-0.4em;font-size:0.8em;">
+        <i class="fa fa-circle" style="position:absolute;left:0;top:0;font-size:1em;color:#c00;"></i>
+        <span id="chat-count-value" style="position:absolute;left:0.34em;top:0.1em;font-size:0.7em;font-weight:bold;"></span>
       </span>
 
       <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
       <button class="fa fa-comments-o delayed" id="chat-button" class="delayed" onclick="toggleSidebar('sidebar-right');" style="position:absolute;right:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
       <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(back_id);" style="display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.1em;"></button>
       <?php echo $challenge->title; ?></h2>
-    </div>
+  </div>
   <h4 class="subteaser"  id="subteaser1"><?php echo $challenge->teaser3; ?></h4>
   <div id="page-container">
-  <div id="page-1" class="active">
+    <div id="page-1" class="active">
 
-    <div class="race-track" id="race-track-1">
-      <div id="race-track-bar-1" onclick="goPage(3,1);"><div id="race-track-inner-bar-1" onclick="goPage(3,1);"></div><div class="closer"></div></div>
-      <div id="race-track-bar-2" onclick="goPage(3,2);"><div id="race-track-inner-bar-2" onclick="goPage(3,2);"></div><div class="closer"></div></div>
-      <div id="race-track-bar-3" onclick="goPage(3,3);"><div id="race-track-inner-bar-3" onclick="goPage(3,3);"></div><div class="closer"></div></div>
-      <div id="race-track-bar-4" onclick="goPage(3,4);"><div id="race-track-inner-bar-4" onclick="goPage(3,4);"></div><div class="closer"></div></div>
-      <div id="race-track-bar-5" onclick="goPage(3,5);"><div id="race-track-inner-bar-5" onclick="goPage(3,5);"></div><div class="closer"></div></div>
-      <div id="race-track-label-1" onclick="goPage(3,1);"></div>
-      <div id="race-track-label-2" onclick="goPage(3,2);"></div>
-      <div id="race-track-label-3" onclick="goPage(3,3);"></div>
-      <div id="race-track-label-4" onclick="goPage(3,4);"></div>
-      <div id="race-track-label-5" onclick="goPage(3,5);"></div>
-      <div class="startline" id="startline-1">start</div>
-      <div class="checkerboard" id="checkerboard-1"></div>
-    </div>
+      <div class="race-track" id="race-track-1">
+        <div id="race-track-bar-1" onclick="goPage(3,1);"><div id="race-track-inner-bar-1" onclick="goPage(3,1);"></div><div class="closer"></div></div>
+        <div id="race-track-bar-2" onclick="goPage(3,2);"><div id="race-track-inner-bar-2" onclick="goPage(3,2);"></div><div class="closer"></div></div>
+        <div id="race-track-bar-3" onclick="goPage(3,3);"><div id="race-track-inner-bar-3" onclick="goPage(3,3);"></div><div class="closer"></div></div>
+        <div id="race-track-bar-4" onclick="goPage(3,4);"><div id="race-track-inner-bar-4" onclick="goPage(3,4);"></div><div class="closer"></div></div>
+        <div id="race-track-bar-5" onclick="goPage(3,5);"><div id="race-track-inner-bar-5" onclick="goPage(3,5);"></div><div class="closer"></div></div>
+        <div id="race-track-label-1" onclick="goPage(3,1);"></div>
+        <div id="race-track-label-2" onclick="goPage(3,2);"></div>
+        <div id="race-track-label-3" onclick="goPage(3,3);"></div>
+        <div id="race-track-label-4" onclick="goPage(3,4);"></div>
+        <div id="race-track-label-5" onclick="goPage(3,5);"></div>
+        <div class="startline" id="startline-1">start</div>
+        <div class="checkerboard" id="checkerboard-1"></div>
+      </div>
 
-    <h2>Ranking</h2>
-    <div class="cell-h-a"><span style="padding-left: 1.5em;">totaal</span></div>
-    <div class="cell-h-b">vandaag</div>
-    <div id="team-summary"></div>
+      <h2>Ranking</h2>
+      <div class="cell-h-a"><span style="padding-left: 1.5em;">totaal</span></div>
+      <div class="cell-h-b">vandaag</div>
+      <div id="team-summary"></div>
 
-    <div style="clear:both;"></div>
-    <h2 style="margin-top:1em;">Jouw bijdrage</h2>
-    <div class="cell-h-a"><span style="padding-left: 1.5em;">totaal</span></div>
-    <div class="cell-h-b">vandaag</div>
-    <div id="personal-summary"></div>
-
-  </div>
-  <div id="page-2">
-
-    <div id="paging">
-      <div id="page-prev">&laquo;</div>
-      <?php if (strtotime($next_date) > time()) { ?>
-        <div id="page-next" class="disabled">&raquo;</div>
-      <?php } else { ?>
-        <div id="page-next">&raquo;</div>
-      <?php } ?>
-      <div id="page-title"></div>
       <div style="clear:both;"></div>
+      <h2 style="margin-top:1em;">Jouw bijdrage</h2>
+      <div class="cell-h-a"><span style="padding-left: 1.5em;">totaal</span></div>
+      <div class="cell-h-b">vandaag</div>
+      <div id="personal-summary"></div>
+
     </div>
+    <div id="page-2">
 
-    <div id="graph" style="height:18em;">
-      <div style="height:12em;width:100%;position:relative;">
-        <?php
-        $total_cols = max(1, $total_cols);
-        $col_width = round(100 / $total_cols,3);
+      <div id="paging">
+        <div id="page-prev">&laquo;</div>
+        <?php if (strtotime($next_date) > time()) { ?>
+          <div id="page-next" class="disabled">&raquo;</div>
+        <?php } else { ?>
+          <div id="page-next">&raquo;</div>
+        <?php } ?>
+        <div id="page-title"></div>
+        <div style="clear:both;"></div>
+      </div>
 
-        //echo $col_width; 1.667
-        //echo $total_cols; 60
-        $x = 0;
-        for ($col = 0; $col < $total_cols; $col++) { ?>
-          <div id="graph-col-<?php echo $col; ?>" class="graph-bar graph-bar-flat" style="width:<?php echo round($col_width - 0.15,1) ; ?>%;left:<?php echo round($x,1); ?>%;"></div>
+      <div id="graph" style="height:18em;">
+        <div style="height:12em;width:100%;position:relative;">
           <?php
-          $x += $col_width;
-        } ?>
+          $total_cols = max(1, $total_cols);
+          $col_width = round(100 / $total_cols,3);
+
+          //echo $col_width; 1.667
+          //echo $total_cols; 60
+          $x = 0;
+          for ($col = 0; $col < $total_cols; $col++) { ?>
+            <div id="graph-col-<?php echo $col; ?>" class="graph-bar graph-bar-flat" style="width:<?php echo round($col_width - 0.15,1) ; ?>%;left:<?php echo round($x,1); ?>%;"></div>
+            <?php
+            $x += $col_width;
+          } ?>
+        </div>
+        <div style="height:6em;width:100%;position:relative;background:#f36518;color:#fff;">
+          <div style="font-size:1em;position:absolute;top:0.3em;left:0.6%;color:#fff;"><?php echo $starttime; ?>:00</div>
+          <div style="font-size:1em;position:absolute;top:0.3em;right:0.6%;color:#fff;"><?php echo $endtime; ?>:00</div>
+          <p style="font-weight:bold;"><span id="cell-distance"></span> km<br>
+            <span><span id="cell-steps"></span> stappen</span>
+          </p>
+        </div>
       </div>
-      <div style="height:6em;width:100%;position:relative;background:#f36518;color:#fff;">
-        <div style="font-size:1em;position:absolute;top:0.3em;left:0.6%;color:#fff;"><?php echo $starttime; ?>:00</div>
-        <div style="font-size:1em;position:absolute;top:0.3em;right:0.6%;color:#fff;"><?php echo $endtime; ?>:00</div>
-        <p style="font-weight:bold;"><span id="cell-distance"></span> km<br>
-          <span><span id="cell-steps"></span> stappen</span>
-        </p>
+
+      <div style="clear:both;"></div>
+      <div style="display:<?php echo $user->adapter=='jawbone'?'block':'none'; ?>">
+        <div class="cell-a"><div style="border-top:0;">Actieve tijd<br><span id="cell-active-time"></span></div></div>
+        <div class="cell-b"><div style="border-top:0;">Totaal verbrand<br><span id="cell-cal-total"></span></div></div>
+        <div class="cell-a"><div>Langst actief<br><span id="cell-longest-active-time"></span></div></div>
+        <div class="cell-b"><div>Actief verbrand<br><span id="cell-cal-active"></span></div></div>
+        <div class="cell-a"><div>Langst inactief<br><span id="cell-inactive-time"></span></div></div>
+        <div class="cell-b"><div>Rustend verbrand<br><span id="cell-cal-rest"></span></div></div>
+        <div style="clear:both;"></div>
       </div>
+
+      <!--<div class="suggest"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna lacus, cursus vel purus eu, lacinia iaculis enim. Phasellus porta libero quis tortor venenatis, nec viverra dui venenatis. Nam augue dui, posuere ut dolor ac, venenatis finibus est. Vivamus tristique</p></div>-->
+
     </div>
+    <div id="page-3">
+      <div class="race-track" id="race-track-2">
+        <div id="race-track-team-bar-1"><div id="race-track-team-inner-bar-1"></div><div class="closer"></div></div>
+        <div id="race-track-team-label-1"></div>
+        <div id="race-track-team-label-2"></div>
+        <div class="startline">start</div>
+        <div class="checkerboard"></div>
+      </div>
 
-    <div style="clear:both;"></div>
-    <div style="display:<?php echo $user->adapter=='jawbone'?'block':'none'; ?>">
-      <div class="cell-a"><div style="border-top:0;">Actieve tijd<br><span id="cell-active-time"></span></div></div>
-      <div class="cell-b"><div style="border-top:0;">Totaal verbrand<br><span id="cell-cal-total"></span></div></div>
-      <div class="cell-a"><div>Langst actief<br><span id="cell-longest-active-time"></span></div></div>
-      <div class="cell-b"><div>Actief verbrand<br><span id="cell-cal-active"></span></div></div>
-      <div class="cell-a"><div>Langst inactief<br><span id="cell-inactive-time"></span></div></div>
-      <div class="cell-b"><div>Rustend verbrand<br><span id="cell-cal-rest"></span></div></div>
-      <div style="clear:both;"></div>
+      <h2>Team Ranking</h2>
+
+      <ul id="ranking"></ul>
+
+      <!--<div style="display: block;">
+        <h3 id="group-users"></h3>
+        <div id="stats-group">
+          <div><span id="cell-group-steps"></span> stappen</div>
+          <div><span id="cell-group-distance"></span>km</div>
+          <div><span id="cell-group-active-time"></span> actief</div>
+        </div>
+        <div id="stats-subgroup">
+          <div><span id="cell-my-steps"></span></div>
+          <div><span id="cell-my-distance"></span></div>
+          <div><span id="cell-my-active-time"></span></div>
+        </div>
+        <div id="stats-subsubgroup">
+          <div><span id="cell-my-avg-steps"></span></div>
+          <div><span id="cell-my-avg-distance"></span></div>
+          <div><span id="cell-my-avg-active-time"></span></div>
+        </div>
+        <div style="clear:both;"></div>
+
+        <div class="cell-a"><div><span id="cell-my-goal"></span></div></div>
+        <div class="cell-b"><div><span id="cell-my-goal-perc"></span></div></div>
+        <div class="cell-a"><div><span id="cell-group-goal"></span></div></div>
+        <div class="cell-b"><div><span id="cell-group-goal-perc"></span></div></div>
+        <div class="cell-e"></div>
+
+        <div style="clear:both;"></div>
+        <br>
+
+        <div class="cell-a"><div><span id="cell-my-goal-week"></span> stappen</div></div>
+        <div class="cell-b"><div><span id="cell-my-goal-week-perc"></span> behaald</div></div>
+        <div class="cell-a"><div><span id="cell-group-goal-week"></span> stappen</div></div>
+        <div class="cell-b"><div><span id="cell-group-goal-week-perc"></span> behaald</div></div>
+        <div class="cell-e"></div>
+
+        <div style="clear:both;"></div>
+      </div>-->
+
     </div>
-
-    <!--<div class="suggest"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis urna lacus, cursus vel purus eu, lacinia iaculis enim. Phasellus porta libero quis tortor venenatis, nec viverra dui venenatis. Nam augue dui, posuere ut dolor ac, venenatis finibus est. Vivamus tristique</p></div>-->
-
-  </div>
-  <div id="page-3">
-    <div class="race-track" id="race-track-2">
-      <div id="race-track-team-bar-1"><div id="race-track-team-inner-bar-1"></div><div class="closer"></div></div>
-      <div id="race-track-team-label-1"></div>
-      <div id="race-track-team-label-2"></div>
-      <div class="startline">start</div>
-      <div class="checkerboard"></div>
-    </div>
-
-    <h2>Team Ranking</h2>
-
-    <ul id="ranking"></ul>
-
-    <!--<div style="display: block;">
-      <h3 id="group-users"></h3>
-      <div id="stats-group">
-        <div><span id="cell-group-steps"></span> stappen</div>
-        <div><span id="cell-group-distance"></span>km</div>
-        <div><span id="cell-group-active-time"></span> actief</div>
-      </div>
-      <div id="stats-subgroup">
-        <div><span id="cell-my-steps"></span></div>
-        <div><span id="cell-my-distance"></span></div>
-        <div><span id="cell-my-active-time"></span></div>
-      </div>
-      <div id="stats-subsubgroup">
-        <div><span id="cell-my-avg-steps"></span></div>
-        <div><span id="cell-my-avg-distance"></span></div>
-        <div><span id="cell-my-avg-active-time"></span></div>
-      </div>
-      <div style="clear:both;"></div>
-
-      <div class="cell-a"><div><span id="cell-my-goal"></span></div></div>
-      <div class="cell-b"><div><span id="cell-my-goal-perc"></span></div></div>
-      <div class="cell-a"><div><span id="cell-group-goal"></span></div></div>
-      <div class="cell-b"><div><span id="cell-group-goal-perc"></span></div></div>
-      <div class="cell-e"></div>
-
-      <div style="clear:both;"></div>
-      <br>
-
-      <div class="cell-a"><div><span id="cell-my-goal-week"></span> stappen</div></div>
-      <div class="cell-b"><div><span id="cell-my-goal-week-perc"></span> behaald</div></div>
-      <div class="cell-a"><div><span id="cell-group-goal-week"></span> stappen</div></div>
-      <div class="cell-b"><div><span id="cell-group-goal-week-perc"></span> behaald</div></div>
-      <div class="cell-e"></div>
-
-      <div style="clear:both;"></div>
-    </div>-->
-
-  </div>
     <?php
 
-   if(isset($_SESSION['isIos']) && $_SESSION['isIos']){
-     require(dirname(__FILE__).'/_settingsIos.php');
-   }
-   if(isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']){
-     require(dirname(__FILE__).'/_settingsAndroid.php');
-   }
-?>
-      <div style="clear:both;">
+    if(isset($_SESSION['isIos']) && $_SESSION['isIos']){
+      require(dirname(__FILE__).'/_settingsIos.php');
+    }
+    if(isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']){
+      require(dirname(__FILE__).'/_settingsAndroid.php');
+    }
+    ?>
+    <div style="clear:both;">
+    </div>
   </div>
-</div>
 </div>

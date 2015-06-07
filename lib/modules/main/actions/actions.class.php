@@ -435,31 +435,28 @@ class MainActions extends Actions {
 
               if (count($receiver_ids) > 0) {
                 $passphrase = $ios_config['api_passphrase'];
+                $url = 'http://apn.dev.mizar-it.nl';
 
                 foreach ($receiver_ids as $receiver_id) {
-                  $ctx = stream_context_create();
-                  stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
-                  stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
-
-                  echo $receiver_id."<br>\n";
-                  $fp = stream_socket_client(
-                    $ios_config['api_server'], $err,
-                    $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
-
-                  if ($fp) {
-                    $body['aps'] = array(
+                  $data = array(
+                    'env' => 'prod',
+                    'receiver' => $receiver_id,
+                    'apn' => 'hc',
+                    'aps' => array(
                       'alert' => '',
                       'content-available' => 0,
                       'badge' => (int)0,
                       'payload' => 'sync',
                       'payload_params' => ""
-                    );
+                    )
+                  );
 
-                    $payload = json_encode($body);
-                    $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
-                    $result = fwrite($fp, $msg, strlen($msg));
-                    fclose($fp);
-                  }
+                  $curl = curl_init();
+                  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($curl, CURLOPT_URL, $url);
+                  curl_setopt($curl, CURLOPT_POST, true);
+                  curl_setopt($curl, CURLOPT_POSTFIELDS, array('data' => json_encode($data)));
+                  $output = curl_exec($curl);
                 }
               }
             }

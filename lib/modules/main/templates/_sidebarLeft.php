@@ -12,71 +12,58 @@ if ($count > 0) {
   <div id="sidebar-left-inner" class="sidebar-inner" style="overflow:scroll;width:100%;">
     <h3><i class="fa fa-arrow-left" id="nav-back" onclick="closeSubmenu();"></i>Menu<i class="fa fa-close" id="nav-close" onclick="closeSubmenu();toggleSidebar('sidebar-left');"></i></h3>
     <div id="mainnav" class="active">
-    <ul style="margin-top:0.5em;">
-      <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span></li>
-      <li style="background:#<?php echo $team->color; ?>;color:#fff;"><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
-    </ul>
-    <?php if($user->device=='android' || $user->device=='ios'){ ?>
-      <ul>
-        <li onclick="toggleSidebar('sidebar-left');goPage(4);"><i class="fa fa-camera"></i> Mijn profiel</li>
-        <li class="subnav" onclick="openSubmenu();"><i class="fa fa-cogs"></i> Instellingen<span><i class="fa fa-chevron-right"></i></span></li>
+      <ul style="margin-top:0.5em;">
+        <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span></li>
+        <li style="background:#<?php echo $team->color; ?>;color:#fff;"><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
       </ul>
-      <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35,37))) { ?>
-      <ul>
-        <li onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';"><i class="fa fa-bug"></i> Debugger</li>
-        <li onclick="window.location.href=window.location.href;"><i class="fa fa-refresh"></i> Refresh</li>
-      </ul>
+      <?php if($user->device=='android' || $user->device=='ios'){ ?>
+        <ul>
+          <li onclick="toggleSidebar('sidebar-left');goPage(4);"><i class="fa fa-camera"></i> Mijn profiel</li>
+          <li class="subnav" onclick="openSubmenu();"><i class="fa fa-cogs"></i> Instellingen<span><i class="fa fa-chevron-right"></i></span></li>
+        </ul>
+        <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35,37))) { ?>
+          <ul>
+            <li onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';"><i class="fa fa-bug"></i> Debugger</li>
+            <li onclick="window.location.href=window.location.href;"><i class="fa fa-refresh"></i> Refresh</li>
+          </ul>
+        <?php } ?>
       <?php } ?>
-    <?php } ?>
     </div>
     <div id="subnav">
       <h4>Instellingen</h4>
 
       <h5>Notificaties</h5>
       <?php if(isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']){ ?>
-      <ul>
-        <li>
-          <label for="notifications">Notificaties ontvangen</label>
-          <input id="notifications" type="checkbox" checked="checked" onchange="Android.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span class="checkbox"></span>
-        </li>
-        <li>
-          <label for="notifications-sound">Geluid toestaan</label>
-          <input id="notifications-sound" type="checkbox" checked="checked" onchange="Android.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox"></span>
-        </li>
-        <li>
-          <label for="notifications-vibrate">Trillen toestaan</label>
-          <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="Android.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox"></span>
-        </li>
-      </ul>
+        <ul>
+          <li>
+            <label for="notifications">Notificaties ontvangen</label>
+            <input id="notifications" type="checkbox" checked="checked" onchange="Android.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span onclick="$('notifications').click();" class="checkbox"></span>
+          </li>
+          <li>
+            <label for="notifications-sound">Geluid toestaan</label>
+            <input id="notifications-sound" type="checkbox" checked="checked" onchange="Android.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox" onclick="$('notifications-sound').click();"></span>
+          </li>
+          <li>
+            <label for="notifications-vibrate">Trillen toestaan</label>
+            <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="Android.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox" onclick="$('notifications-vibrate').click();"></span>
+          </li>
+        </ul>
       <?php } ?>
       <?php  if(isset($_SESSION['isIos']) && $_SESSION['isIos']){ ?>
         <ul>
           <li>
             <label for="notifications">Notificaties ontvangen</label>
-            <input id="notifications" type="checkbox" checked="checked" onchange="iOS.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span class="checkbox"></span>
+            <input id="notifications" type="checkbox" checked="checked" onchange="iOS.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';"><span onclick="$('notifications').click();" class="checkbox"></span>
           </li>
           <li>
             <label for="notifications-sound">Geluid toestaan</label>
-            <input id="notifications-sound" type="checkbox" checked="checked" onchange="iOS.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox"></span>
+            <input id="notifications-sound" type="checkbox" checked="checked" onchange="iOS.setSetting('sound', this.checked ? '1' : '0');"><span class="checkbox" onclick="$('notifications-sound').click();"></span>
           </li>
           <li>
             <label for="notifications-vibrate">Trillen toestaan</label>
-            <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="iOS.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox"></span>
+            <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="iOS.setSetting('vibrate', this.checked ? '1' : '0');"><span class="checkbox" onclick="$('notifications-vibrate').click();"></span>
           </li>
         </ul>
-        <!--
-          <h2>Notificaties</h2>
-  <input id="notifications" type="checkbox" onchange="iOS.setSetting('notifications', this.checked ? '1' : '0');$('notifications-vibrate').disabled=this.checked?'':'disabled';$('notifications-sound').disabled=this.checked?'':'disabled';">
-  <label class="checkbox" for="notifications" style="margin-bottom:0.4em;"> Notificaties ontvangen</label><br>
-
-  <div style="padding-left:2em;">
-    <input id="notifications-vibrate" type="checkbox" checked="checked" onchange="iOS.setSetting('vibrate', this.checked ? '1' : '0');">
-    <label class="checkbox" for="notifications-vibrate" style="margin-bottom:0.4em;"> Trillen toestaan</label><br>
-
-    <input id="notifications-sound" type="checkbox" checked="checked" onchange="iOS.setSetting('sound', this.checked ? '1' : '0');">
-    <label class="checkbox" for="notifications-sound" style="margin-bottom:0.4em;"> Geluid toestaan</label>
-  </div>
-  -->
       <?php } ?>
     </div>
   </div>
@@ -90,17 +77,22 @@ if ($count > 0) {
     $('nav-back').style.visibility = 'visible';
 
     inToggleSidebar = true;
-    setTimeout(function() { inToggleSidebar = false; }, 700);
+    /*setTimeout(function() { inToggleSidebar = false; }, 700);*/
   }
 
   function closeSubmenu()
   {
-    $('subnav').removeClassName('available');
-    $('mainnav').addClassName('active');
-    $('subnav').removeClassName('active');
-    $('nav-back').style.visibility = 'hidden';
+    if($('subnav').hasClassName('active')) {
+      $('subnav').removeClassName('available');
+      $('mainnav').addClassName('active');
+      $('subnav').removeClassName('active');
+      $('nav-back').style.visibility = 'hidden';
 
-    inToggleSidebar = true;
-    setTimeout(function() { inToggleSidebar = false; }, 700);
+      inToggleSidebar = true;
+      setTimeout(function() { inToggleSidebar = false; }, 700);
+    }
+    else {
+      inToggleSidebar = false;
+    }
   }
 </script>
