@@ -1,6 +1,8 @@
 <script type="text/javascript">
   var jawbone_user_id = '<?php echo $user->xid; ?>';
   var iOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
+  var isIos = <?php echo isset($_SESSION['isIos']) && $_SESSION['isIos']?'true':'false'; ?>;
+  var isAndroid = <?php echo isset($_SESSION['isAndroid']) && $_SESSION['isAndroid']?'true':'false'; ?>;
   <?php $iOS = (bool)preg_match("/(iPad|iPhone|iPod)/si", $_SERVER['HTTP_USER_AGENT']); ?>
   function setTimespan() {
     <?php
@@ -25,8 +27,9 @@
   });
 
   setTimeout(function(){
+    console.log('reload');
     window.location.href=window.location.href;
-  }, 60*60*1000);
+  }, 60000);
 
 
 </script>
@@ -41,12 +44,12 @@
         <?php if ($iOS) { ?>
           <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:-0.7em;color:#fff;top:0.1em;"></button>
           <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.7em;top:0.4em;padding:0;margin:0;"></button>
-          <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
+          <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,52))) { ?>
             <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
           <?php } ?>
         <?php } else { ?>
           <button id="back-button" class="delayed" onclick="goPage(1);" style="display:none;background:url(/img/button-back.png);background-size:100% 100%;width: 0.9em; height: 1.6em;position:absolute;left:0.4em;top:0.3em;padding:0;margin:0;"></button>
-          <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11))) { ?>
+          <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,52))) { ?>
             <button class="fa fa-cog delayed" onclick="window.location.href='/main/debug?ju=<?php echo $jawbone_user_id; ?>';" style="margin:0;padding:0;position:absolute;right:0.3em;top:0.1em;color:#fff;width:auto;font-size:1em;"></button>
           <?php } ?>
         <?php } ?>
@@ -81,7 +84,7 @@
       <h2>Jouw team</h2>
       <ul class="team-counters">
         <li style="background:#<?php echo $team->color; ?>"><?php echo $team->title; ?>
-          <span><img src="/img/icon-person.png" alt=""><br><?php echo $team_data[$team->id]['users']; ?><?php if($team_data[$team->id]['max_users']>0&&$team_data[$team->id]['max_users']>=$team_data[$team->id]['users']){ echo '/'.$team_data[$team->id]['max_users']; } ?></span>
+          <span style="font-size:0.6em;"><img src="/img/icon-person.png" alt=""><br><?php echo $team_data[$team->id]['users']; ?><?php if($team_data[$team->id]['max_users']>0&&$team_data[$team->id]['max_users']>=$team_data[$team->id]['users']){ echo '/'.$team_data[$team->id]['max_users']; } ?></span>
         </li>
       </ul>
       <ul id="ranking">
@@ -98,7 +101,7 @@
           if ($tteam->id == $team->id) continue;
           ?>
           <li style="background:#<?php echo $tteam->color; ?>"><?php echo $tteam->title; ?>
-            <span><img src="/img/icon-person.png" alt=""><br><?php echo $team_data[$tteam->id]['users']; ?><?php if($team_data[$tteam->id]['max_users']>0&&$team_data[$tteam->id]['max_users']>=$team_data[$tteam->id]['users']){ echo '/'.$team_data[$tteam->id]['max_users']; } ?></span>
+            <span style="font-size:0.6em;"><img src="/img/icon-person.png" alt=""><br><?php echo $team_data[$tteam->id]['users']; ?><?php if($team_data[$tteam->id]['max_users']>0&&$team_data[$tteam->id]['max_users']>=$team_data[$tteam->id]['users']){ echo '/'.$team_data[$tteam->id]['max_users']; } ?></span>
           </li>
         <?php } ?>
       </ul>

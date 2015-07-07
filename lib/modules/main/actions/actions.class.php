@@ -179,6 +179,18 @@ class MainActions extends Actions {
    * */
   public function executeExternalPush($params = array())
   {
+    /*
+    if ($_SERVER['REMOTE_ADDR']== '94.209.9.24') {
+      echo time()."<br>\n";
+      echo date('Y-m-d H:i:s');
+      
+      echo time()."<br>\n";
+      echo date('Y-m-d H:i:s');
+      echo date('O');
+      echo date('I');
+      exit;
+    }
+    */
     $notifier = Notifier::model()->findByAttributes(new Criteria(array('pushDevice' => $params['device'], 'pushId' => $params['device_id'])));
     if ($notifier) {
       //echo $notifier->id;
@@ -296,6 +308,8 @@ class MainActions extends Actions {
         } else {
           // Android
           $newDay = false;
+
+          // timestamp is UTC
 
           $date = date('Y-m-d', $params['timestamp']);
           $day = Day::model()->findByAttributes(new Criteria(array(
@@ -422,7 +436,12 @@ class MainActions extends Actions {
   {
     $ios_config = Registry::get('push_ios');
     if ($ios_config['enabled']) {
-      $users = User::model()->findAllByAttributes(new Criteria(array('adapter' => 'native', 'device' => 'ios'/*, 'sensor' => 1*/)));
+      $crit = array('adapter' => 'native', 'device' => 'ios'/*, 'sensor' => 1*/);
+      if (isset($params['user_id'])) {
+        $crit['id'] = $params['user_id'];
+      }
+
+      $users = User::model()->findAllByAttributes(new Criteria($crit));
       if ($users) {
         foreach ($users as $user) {
           // find notifiers for this user
@@ -438,6 +457,8 @@ class MainActions extends Actions {
                 $url = 'http://apn.dev.mizar-it.nl';
 
                 foreach ($receiver_ids as $receiver_id) {
+                  echo $receiver_id.'<br>';
+
                   $data = array(
                     'env' => 'prod',
                     'receiver' => $receiver_id,
@@ -451,13 +472,44 @@ class MainActions extends Actions {
                     )
                   );
 
+
                   $curl = curl_init();
                   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                   curl_setopt($curl, CURLOPT_URL, $url);
                   curl_setopt($curl, CURLOPT_POST, true);
                   curl_setopt($curl, CURLOPT_POSTFIELDS, array('data' => json_encode($data)));
                   $output = curl_exec($curl);
+                  echo '<hr>';
+                  echo $output;
+
+                  /*
                 }
+                  $ctx = stream_context_create();
+                  stream_context_set_option($ctx, 'ssl', 'local_cert', $ios_config['api_certificate']);
+                  stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+                  echo $receiver_id."<br>\n";
+                  $fp = stream_socket_client(
+                    $ios_config['api_server'], $err,
+                    $errstr, 15, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT, $ctx);
+
+                  if ($fp) {
+                    $body['aps'] = array(
+                      'alert' => '',
+                      'content-available' => 0,
+                      'badge' => (int)0,
+                      'payload' => 'sync',
+                      'payload_params' => ""
+                    );
+
+                    $payload = json_encode($body);
+                    $msg = chr(0) . pack('n', 32) . pack('H*', $receiver_id) . pack('n', strlen($payload)) . $payload;
+                    $result = fwrite($fp, $msg, strlen($msg));
+                    fclose($fp);
+                  }
+                  */
+                }
+
               }
             }
           }
@@ -504,7 +556,7 @@ class MainActions extends Actions {
     //if (isset($_POST['digit-1'])) {
     //  $code = $_POST['digit-1'].$_POST['digit-2'].$_POST['digit-3'].$_POST['digit-4'].$_POST['digit-5'].$_POST['digit-6'];
     if (isset($_POST['digits'])) {
-        $code = $_POST['digits'];
+      $code = $_POST['digits'];
       $model = Entrycode::model()->findByAttributes(new Criteria(array('code' => $code)));
       if (!$model) {
         $this->errors = array('entrycode' => 'Onbekende persoonlijke code');
@@ -965,23 +1017,8 @@ class MainActions extends Actions {
       if($team->team->challenge_id == $challenge->id) break;
     }
 
-    if($challenge->starttime) {
-      $starttimeAr = explode(':', $challenge->starttime);
-      $starttime = (int)$starttimeAr[0];
-    }
-    else {
-      $starttime = 0;
-    }
-    if ($challenge->endtime) {
-      $endtimeAr = explode(':', $challenge->endtime);
-      $endtime = (int)$endtimeAr[0];
-    }
-    else {
-      $endtime = 24;
-    }
-
-    $startdate = strtotime($challenge->startdate);
-    $enddate = strtotime($challenge->enddate);
+    $startdate = strtotime($challenge->startdate.' '.$challenge->starttime);
+    $enddate = strtotime($challenge->enddate.' '.$challenge->endtime);
 
     if ($challenge->startdate && $startdate < time()) {
       header('Location: /main/index');
@@ -996,8 +1033,9 @@ class MainActions extends Actions {
       $user_data = array();
       foreach ($users as $user) {
         // find steps for this user
-        $steps = 123455 + rand(0, 100000);
-        $distance = 123;
+        //$steps = 123455 + rand(0, 100000);
+        //$distance = 123;
+        $steps = $distance = 0;
         $user_data[$steps][] = array(
           'steps' => $steps,
           'distance' => $distance,
@@ -1074,6 +1112,7 @@ class MainActions extends Actions {
 
     $group_users = count($all_users);
 
+
     if($challenge->starttime) {
       $starttimeAr = explode(':', $challenge->starttime);
       $starttime = (int)$starttimeAr[0];
@@ -1089,15 +1128,15 @@ class MainActions extends Actions {
       $endtime = 24;
     }
 
-    $startdate = strtotime($challenge->startdate);
-    $enddate = strtotime($challenge->enddate);
+    $startdate = strtotime($challenge->startdate.' '.$challenge->starttime);
+    $enddate = strtotime($challenge->enddate.' '.$challenge->endtime);
 
     if ($challenge->startdate && $startdate > time()) {
       header('Location: /main/countdown?ju='.$jawbone_user_id);
       exit;
     }
     if ($challenge->enddate && $enddate < time()) {
-      if (date('H') >= $endtime) {
+      if ( ($challenge->enddate != date('Y-m-d')) || date('H') >= $endtime) {
         // todo: check if the challenge expired yesterday or earlier
         if (!isset($params['return_data'])) {
           header('Location: /main/finish?ju='.$jawbone_user_id);
@@ -1129,7 +1168,7 @@ class MainActions extends Actions {
         if(!$user_team->team) continue;
         if($user_team->team->challenge_id == $challenge->id) break;
       }
-      if (!$user_team) continue;
+      if (!$user_team || $user_team->team->challenge_id != $challenge->id) continue;
 
       $valid_users[] = $user;
 
@@ -1170,9 +1209,24 @@ class MainActions extends Actions {
         $date = $day->date;
 
         $test = strtotime($date);
+
+        if ($test < strtotime($startdate)) continue;
+
+        if(
+          date('Y-m-d', $startdate) == date('Y-m-d') &&
+          $date == date('Y-m-d')) {
+          $test = time();
+        }
+
         if ($startdate && $test < $startdate) continue;
         if ($enddate && $test > $enddate) continue;
-
+        /*if ($_SERVER['REMOTE_ADDR'] == '94.209.9.24') {
+          var_dump($date);
+          var_dump($test);
+          var_dump($startdate);
+          var_dump(date('Y-m-d', $startdate));
+          exit;
+        }*/
         if (!isset($group_steps[$date])) {
           $group_steps[$date] = 0;
           $group_distance[$date] = 0;
@@ -1201,7 +1255,6 @@ class MainActions extends Actions {
         )));
 
         foreach ($hours as $hour) {
-
           if ($hour->hour >= $starttime && $hour->hour <= $endtime) {
 
             $group_steps[$date] += $hour->steps;
@@ -1268,6 +1321,12 @@ class MainActions extends Actions {
 
     foreach(array_keys($local_data['group_steps']) as $date) {
       $test = strtotime($date);
+      if(
+        date('Y-m-d', $startdate) == date('Y-m-d') &&
+        $date == date('Y-m-d')) {
+        $test = time();
+      }
+
       if ($startdate && $test < $startdate) continue;
       if ($enddate && $test > $enddate) continue;
 
@@ -1420,6 +1479,7 @@ class MainActions extends Actions {
       'personal' => array(
         'color' => $this->team?$this->team->color:'cccccc',
         'team' => $this->team?$this->team->id:0,
+        'team_title' => $this->team?$this->team->title:0,
         'total' => array(
           'steps' => $user_totals,
           'distance' => $user_totals_distance

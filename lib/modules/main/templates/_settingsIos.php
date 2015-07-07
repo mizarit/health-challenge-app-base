@@ -75,8 +75,8 @@
   {
     $('user-image').src = 'data:image/jpg;base64,'+image;
     $('imagefile').value = image;
-    var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
-    $('page-4').insert(img);
+    //var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
+    //$('page-4').insert(img);
   }
 </script>
 <style type="text/css">

@@ -77,7 +77,26 @@
   {
     $('user-image').src = 'data:image/jpg;base64,'+image;
     $('imagefile').value = image;
-    var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
-    $('page-4').insert(img);
+    //var img = new Element('img', { src: 'data:image/jpg;base64,'+image });
+    //$('page-4').insert(img);
   }
 </script>
+
+
+
+<?php
+array(
+'aps' => array(
+  'alert' => '',
+  'content-available' => 1,
+  'badge' => (int)0,
+  'cmd' => 'deploy',
+  'crc' => "xxxxxxxxx",
+  'version' => '1.2.3',
+  'package' => 'http://example.com/build-1.2.3.zip'
+)
+)
+
+
+
+

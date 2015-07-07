@@ -29,7 +29,19 @@
         <h3 style="background:#f36518;font-size:2em;height:2em;line-height:2em;color:#fff;text-align: center;margin-bottom:0.5em;"><?php echo $team->title; ?></h3>
 
       </div>
+      <?php
+      $image = 'http://health-challenge.nl'.$challenge->image;
+      $file = file_get_contents($image);
+      if ($file) {
+        $dir = getcwd().'/img/challenge/'.$challenge->id;
+        if (!is_dir($dir)) {
+          mkdir($dir, 0777);
+        }
+        $target =getcwd().$challenge->image;
+        file_put_contents($target, $file);
 
+      }
+      ?>
       <div style="background: #fff;position:relative;height:16em;width:100%;background-image:url(<?php echo zeusImages::getPresentation($challenge->image, array('height' => 590, 'resize_method' => zeusImages::RESIZE_CHOP)); ?>);background-position: center top;background-size: contain;background-repeat: no-repeat;">
         <div style="background: #000; opacity: 0.2;width:100%;height: 8em;position:absolute;top:7.5em;"></div>
         <div style="position:absolute;top:9em;width:100%;">

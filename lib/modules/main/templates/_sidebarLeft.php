@@ -14,12 +14,14 @@ if ($count > 0) {
     <div id="mainnav" class="active">
       <ul style="margin-top:0.5em;">
         <li><i class="fa fa-user"></i> <span id="user-name"><?php echo $user->firstName; ?> <?php echo $user->lastName; ?></span></li>
-        <li style="background:#<?php echo $team->color; ?>;color:#fff;"><i class="fa fa-flag"></i> <?php echo $team->title; ?></li>
+        <li style="background:#<?php echo $team->color; ?>;color:#fff;"><i class="fa fa-flag"></i> <span id="team-name"><?php echo $team->title; ?></span></li>
       </ul>
       <?php if($user->device=='android' || $user->device=='ios'){ ?>
         <ul>
           <li onclick="toggleSidebar('sidebar-left');goPage(4);"><i class="fa fa-camera"></i> Mijn profiel</li>
           <li class="subnav" onclick="openSubmenu();"><i class="fa fa-cogs"></i> Instellingen<span><i class="fa fa-chevron-right"></i></span></li>
+          <li onclick="sync(<?php echo $user->id; ?>, true);"><i class="fa fa-refresh"></i> Synchroniseren</li>
+          <li onclick="window.location.href=window.location.href;"><i class="fa fa-refresh"></i> Herladen</li>
         </ul>
         <?php if (strpos($_SERVER['SERVER_NAME'], 'mizar') || in_array($user->id, array(9,10,11,32,33,34,35,37))) { ?>
           <ul>

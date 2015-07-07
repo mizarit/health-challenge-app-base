@@ -20,9 +20,10 @@
         <i class="fa fa-circle" style="position:absolute;left:0;top:0;font-size:1em;color:#c00;"></i>
         <span id="chat-count-value" style="position:absolute;left:0.34em;top:0.1em;font-size:0.7em;font-weight:bold;"></span>
       </span>
-
+<?php if(!isset($_GET['guest'])) { ?>
       <button class="fa fa-reorder delayed" id="menu-button" class="delayed" onclick="toggleSidebar('sidebar-left');" style="position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
       <button class="fa fa-comments-o delayed" id="chat-button" class="delayed" onclick="toggleSidebar('sidebar-right');" style="position:absolute;right:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.2em;"></button>
+<?php } ?>
       <button class="fa fa-arrow-left delayed" id="back-button" onclick="goPage(back_id);" style="display:none;position:absolute;left:<?php echo $iOS? '-0.9':'0.1'; ?>em;color:#fff;top:<?php echo $iOS? '-0.3':'-0.2'; ?>em;font-size:1.1em;"></button>
       <?php echo $challenge->title; ?></h2>
   </div>

@@ -518,6 +518,8 @@ function renderDataset()
     });
 
     recalcHeight();
+
+    $('team-name').innerHTML = local_data['personal']['team_title'];
 }
 function goPage(page_id, team_id)
 {
@@ -561,7 +563,9 @@ function goPage(page_id, team_id)
         }
     }
 
-    $('page-'+page_id).addClassName('active');
+    if ($('page-'+page_id)) {
+        $('page-'+page_id).addClassName('active');
+    }
     $('page-'+oldActive).removeClassName('active');
 
     recalcHeight();
@@ -610,5 +614,19 @@ function recalcHeight()
     $('page-container').style.height = h+'px';
 }
 
-
-
+function sync(user_id, toggle)
+{
+    var t = toggle;
+    new Ajax.Request('/main/externalPull?user_id='+user_id,{
+        onSuccess: function(transport) {
+            //alert(transport.responseText);
+            if (toggle) {
+                closeSubmenu();
+                toggleSidebar('sidebar-left');
+            }
+            setTimeout(function() {
+                loadDataset();
+            }, 2000);
+        }
+    });
+}

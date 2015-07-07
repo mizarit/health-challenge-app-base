@@ -395,7 +395,8 @@ button.delayed {
     visibility: hidden;
 }
 
-#user-name {
+#user-name,
+#team-name {
     font-weight: 400 !important;
 }
 .sidebar li.active-item {
@@ -1003,18 +1004,18 @@ position: fixed;
 }
 
 #container.finish #trophy img {
-    height: 16em;
+    height: 14em;
 }
 
 #container.finish #trophy {
     text-align: center;
-    height:16em;
+    height:14em;
     position: relative;
 }
 
 #container.finish #trophy span {
     position: absolute;
-    top: 1.8em;
+    top: 1.5em;
     left: 0;
     width: 100%;
     text-align: center;
@@ -1067,6 +1068,7 @@ position: fixed;
     position: absolute;
     left: 4.6em;
     top: 2.4em;
+    font-size: 0.5em;
 }
 .results .team-counters li {
     text-align: left;
